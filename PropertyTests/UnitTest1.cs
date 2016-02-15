@@ -97,6 +97,35 @@ namespace PropertyTests
 
            Assert.AreEqual(test, test.Thing.Owner);
         }
+
+        [TestMethod]
+        public void TestWeak()
+        {
+            var test = new WeakTest();
+
+            var value = new BasicField();
+            test.Value = value;
+
+            Assert.AreEqual(value, test.Value);
+            value = null;
+
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+
+            Assert.IsNull(test.Value);
+        }
+    }
+
+    public class WeakTest : PropertyChangeable
+    {
+        [Weak]
+        public BasicField Value
+        {
+            get { return this.Get(t => t.Value, _Value); }
+            set { this.Set(t => t.Value, value, _Value); }
+        }
+        private static readonly IProperty<WeakTest> _Value = Properties<WeakTest>.Property(t => t.Value);
     }
 
     public class BasicField : Owned<IPropertyChangeable>

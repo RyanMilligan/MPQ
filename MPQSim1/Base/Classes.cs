@@ -279,15 +279,30 @@ namespace MPQSim.Base
             Order = PropertyAttributeOrder.Filter;
         }
 
-        //public override Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property)
-        //{
-        //    return base.FilterGet(property);
-        //}
+        public override void Initialize<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
+        {
+            base.Initialize<TOwner, TProperty, WeakReference>(property);
+        }
 
-        //public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
-        //{
-        //    return base.FilterSet(property);
-        //}
+        public override Expression<Func<TOwner, TStorage>> FilterGet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
+        {
+            var get = base.FilterGet<TOwner, TProperty, WeakReference>(property);
+            return Expression.Lambda<Func<TOwner, TStorage>>(Expression.Convert(Expression.Property(get.Body, "Target"), Types<TProperty>.Type), get.Parameters);
+        }
+
+        private static ConstructorInfo weakReferenceCtor = Types<WeakReference>.Type.GetConstructor(new[] { Types<object>.Type });
+        public override Expression<Action<TOwner, TStorage>> FilterSet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
+        {
+            var set = base.FilterSet<TOwner, TProperty, WeakReference>(property);
+
+            var newValue = Expression.Parameter(Types<TStorage>.Type, "newValue");
+
+            var reference = Expression.Parameter(Types<WeakReference>.Type, "reference");
+            return Expression.Lambda<Action<TOwner, TStorage>>(Expression.Block(new[] { reference },
+                Expression.Assign(reference, Expression.New(weakReferenceCtor, newValue)),
+                Expression.Invoke(set, set.Parameters[0], reference)),
+            set.Parameters[0], newValue);
+        }
     }
 
     public class LazyAttribute : PropertyAttribute
