@@ -75,14 +75,14 @@ namespace MPQSim.Base
                 return current;
             });
 
-            attributes.Initialize(this);
+            attributes.Initialize<TOwner, TProperty, TProperty>(this);
 
-            get = attributes.FilterGet(this);
+            get = attributes.FilterGet<TOwner, TProperty, TProperty>(this);
 
             Get = get.Compile();
             ToGet = get;
 
-            set = attributes.FilterSet(this);
+            set = attributes.FilterSet<TOwner, TProperty, TProperty>(this);
             
             Set = set.Compile();
 
@@ -229,30 +229,42 @@ namespace MPQSim.Base
     {
         Direct = 1,
         Reference = 2,
-        List = 3
+        List = 4
+    }
+
+    public interface IPropertyFilter
+    {
+        IPropertyFilter Next { get; set; }
+
+        void Initialize<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
+            where TOwner : IPropertyChangeable;
+        Expression<Func<TOwner, TStorage>> FilterGet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
+            where TOwner : IPropertyChangeable;
+        Expression<Action<TOwner, TStorage>> FilterSet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
+            where TOwner : IPropertyChangeable;
     }
 
     public abstract class PropertyAttribute : Attribute, IPropertyFilter
     {
-        public virtual void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public virtual void Initialize<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
             where TOwner : IPropertyChangeable
         {
             if (Next != null)
             {
-                Next.Initialize(property);
+                Next.Initialize<TOwner, TProperty, TStorage>(property);
             }
         }
 
         public IPropertyFilter Next { get; set; }
 
-        public virtual Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property) where TOwner : IPropertyChangeable
+        public virtual Expression<Func<TOwner, TStorage>> FilterGet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property) where TOwner : IPropertyChangeable
         {
-            return Next.FilterGet(property);
+            return Next.FilterGet<TOwner, TProperty, TStorage>(property);
         }
 
-        public virtual Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property) where TOwner : IPropertyChangeable
+        public virtual Expression<Action<TOwner, TStorage>> FilterSet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property) where TOwner : IPropertyChangeable
         {
-            return Next.FilterSet(property);
+            return Next.FilterSet<TOwner, TProperty, TStorage>(property);
         }
 
         public PropertyAttributeOrder Order { get; set; }
@@ -267,15 +279,15 @@ namespace MPQSim.Base
             Order = PropertyAttributeOrder.Filter;
         }
 
-        public override Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property)
-        {
-            return base.FilterGet(property);
-        }
+        //public override Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        //{
+        //    return base.FilterGet(property);
+        //}
 
-        public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
-        {
-            return base.FilterSet(property);
-        }
+        //public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        //{
+        //    return base.FilterSet(property);
+        //}
     }
 
     public class LazyAttribute : PropertyAttribute
@@ -287,18 +299,18 @@ namespace MPQSim.Base
             Order = PropertyAttributeOrder.Filter;
         }
 
-        public override void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override void Initialize<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
-            base.Initialize<TOwner, TProperty>(property);
+            base.Initialize<TOwner, TProperty, TStorage>(property);
 
             _createMethod = Types<TOwner>.Type.GetMethod("Create" + property.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
         }
 
-        public override Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override Expression<Func<TOwner, TStorage>> FilterGet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
             var currentValue = Expression.Variable(Types<TProperty>.Type, "currentValue");
 
-            var get = base.FilterGet(property);
+            var get = base.FilterGet<TOwner, TProperty, TStorage>(property);
 
             var newGet = Expression.Block(Types<TProperty>.Type, new[] { currentValue },
                 Expression.Assign(currentValue, get.Body),
@@ -310,7 +322,7 @@ namespace MPQSim.Base
                     Expression.Assign(Expression.Property(get.Parameters[0], property.PropertyInfo), currentValue))),
                 currentValue);
 
-            return Expression.Lambda<Func<TOwner, TProperty>>(newGet, get.Parameters);
+            return Expression.Lambda<Func<TOwner, TStorage>>(newGet, get.Parameters);
         }
     }
 
@@ -321,22 +333,22 @@ namespace MPQSim.Base
             Order = PropertyAttributeOrder.Storage;
         }
 
-        public override void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override void Initialize<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
-            base.Initialize(property);
+            base.Initialize<TOwner, TProperty, TStorage>(property);
 
             Index = property.StorageDefinition.FieldCount++;
         }
 
         public int Index { get; set; }
 
-        public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override Expression<Action<TOwner, TStorage>> FilterSet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
             return (owner, newValue) => owner.Storage.Set(newValue, Index);
         }
-        public override Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override Expression<Func<TOwner, TStorage>> FilterGet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
-            return owner => owner.Storage.Get<TProperty>(Index);
+            return owner => owner.Storage.Get<TStorage>(Index);
         }
     }
 
@@ -453,28 +465,6 @@ namespace MPQSim.Base
         }
     }
 
-    public interface IPropertyFilter
-    {
-        IPropertyFilter Next { get; set; }
-
-        void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
-            where TOwner : IPropertyChangeable;
-        Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property)
-            where TOwner : IPropertyChangeable;
-        Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
-            where TOwner : IPropertyChangeable;
-    }
-
-    public class PropertyFilterAttribute : Attribute
-    {
-        public PropertyFilterAttribute(Type propertyFilterType)
-        {
-            PropertyFilterType = propertyFilterType;
-        }
-
-        public Type PropertyFilterType { get; set; }
-    }
-
     [Monitorable.NotifyPropertyChanged]
     public class Monitorable : PropertyChangeable, INotifyPropertyChanged
     {
@@ -497,10 +487,10 @@ namespace MPQSim.Base
                 Order = PropertyAttributeOrder.Filter;
             }
 
-            public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+            public override Expression<Action<TOwner, TStorage>> FilterSet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
             {
-                var set = base.FilterSet(property);
-                return Expression.Lambda<Action<TOwner, TProperty>>(Expression.Block(
+                var set = base.FilterSet<TOwner, TProperty, TStorage>(property);
+                return Expression.Lambda<Action<TOwner, TStorage>>(Expression.Block(
                     set.Body,
                     Expression.Call(set.Parameters[0], Notify, Expression.Constant(property.Name))), set.Parameters);
             }
@@ -520,19 +510,19 @@ namespace MPQSim.Base
         }
 
         MethodInfo detachMethod, attachMethod;
-        public override void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override void Initialize<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
-            base.Initialize<TOwner, TProperty>(property);
+            base.Initialize<TOwner, TProperty, TStorage>(property);
 
             attachMethod = Types<TOwner>.Type.GetMethod("AttachTo" + property.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             detachMethod = Types<TOwner>.Type.GetMethod("DetachFrom" + property.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
         }
 
-        public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override Expression<Action<TOwner, TStorage>> FilterSet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
-            var set = base.FilterSet(property);
+            var set = base.FilterSet<TOwner, TProperty, TStorage>(property);
             var currentValue = Expression.Variable(Types<TProperty>.Type, "currentValue");
-            return Expression.Lambda<Action<TOwner, TProperty>>(Expression.Block(new[] { currentValue },
+            return Expression.Lambda<Action<TOwner, TStorage>>(Expression.Block(new[] { currentValue },
                 Expression.Assign(currentValue, Expression.Invoke(property.ToGet, set.Parameters[0])),
                 Expression.IfThen(Expression.ReferenceNotEqual(currentValue, Expression.Constant(null)),
                     Expression.Call(set.Parameters[0], detachMethod)),
@@ -551,17 +541,17 @@ namespace MPQSim.Base
         }
 
         PropertyInfo ownerAttribute;
-        public override void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override void Initialize<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
-            base.Initialize<TOwner, TProperty>(property);
+            base.Initialize<TOwner, TProperty, TStorage>(property);
 
             ownerAttribute = Types<TProperty>.Type.GetProperty("Owner", BindingFlags.Instance | BindingFlags.Public);
         }
 
-        public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        public override Expression<Action<TOwner, TStorage>> FilterSet<TOwner, TProperty, TStorage>(Property<TOwner, TProperty> property)
         {
-            var set = base.FilterSet(property);
-            return Expression.Lambda<Action<TOwner, TProperty>>(Expression.Block(
+            var set = base.FilterSet<TOwner, TProperty, TStorage>(property);
+            return Expression.Lambda<Action<TOwner, TStorage>>(Expression.Block(
                 Expression.IfThen(Expression.ReferenceNotEqual(set.Parameters[1], Expression.Constant(null)),
                     Expression.Assign(Expression.Property(set.Parameters[1], ownerAttribute), set.Parameters[0])
                 ),
