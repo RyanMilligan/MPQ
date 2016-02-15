@@ -21,13 +21,20 @@
           <ToolTip>Property type</ToolTip>
           <Default>string</Default>
         </Literal>
+        <Literal Editable="false">
+          <ID>classname</ID>
+          <ToolTip>Class name</ToolTip>
+          <Function>ClassName()</Function>
+          <Default>ClassNamePlaceholder</Default>
+        </Literal>
 			</Declarations>
 			<Code Language="csharp">
         <![CDATA[public $proptype$ $propname$
 	{
-    get { return this.Get(t => t.$propname$); }
-    set { this.Set(t => t.$propname$, value); }
+    get { return this.Get(t => t.$propname$, _$propname$); }
+    set { this.Set(t => t.$propname$, value, _$propname$); }
 	}
+  private static readonly IProperty<$classname$> _$propname$ = Properties<$classname$>.Property(t => t.$propname$);
 		$end$]]>
 			</Code>
 		</Snippet>

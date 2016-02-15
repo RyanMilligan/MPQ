@@ -1,18 +1,8 @@
 ﻿using MPQSim.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace MPQSim
 {
@@ -25,26 +15,38 @@ namespace MPQSim
         {
             InitializeComponent();
 
-            var thing = new Named();
-            thing.Name = "foo";
-            Console.WriteLine(thing.Name);
+            DataContext = new MainWindowContext();
+        }
 
-            var e = new Event()
+        private class MainWindowContext : Monitorable
+        {
+            public MainWindowContext()
             {
-                Name = "Deadpool vs. MPQ",
-                SubEvents =
+                var serializer = new XmlSerializer(typeof(Event));
+                foreach (var file in Directory.EnumerateFiles("Events", "*.xml"))
                 {
-                    new SubEvent()
+                    using (var reader = new StreamReader(file))
                     {
-                        Duration = TimeSpan.FromDays(2),
-                        Name = "Deadpool vs. Villains",
-                        Nodes =
-                        {
-
-                        }
+                        var e = (Event)serializer.Deserialize(reader);
+                        Events.Add(e);
                     }
                 }
-            };
+            }
+
+            [Lazy]
+            public ObservableCollection<Event> Events
+            {
+                get { return this.Get(t => t.Events, _Events); }
+                set { this.Set(t => t.Events, value, _Events); }
+            }
+            private static readonly IProperty<MainWindowContext> _Events = Properties<MainWindowContext>.Property(t => t.Events);
+
+            public Event SelectedEvent
+            {
+                get { return this.Get(t => t.SelectedEvent, _SelectedEvent); }
+                set { this.Set(t => t.SelectedEvent, value, _SelectedEvent); }
+            }
+            private static readonly IProperty<MainWindowContext> _SelectedEvent = Properties<MainWindowContext>.Property(t => t.SelectedEvent);
         }
     }
 }

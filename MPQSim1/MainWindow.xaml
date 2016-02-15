@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MPQSim"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="350" Width="525"
+        x:Name="Root">
+    <DockPanel>
+        <ListBox x:Name="Events" DockPanel.Dock="Left" ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent, Mode=TwoWay}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
+        <ContentControl Content="{Binding SelectedEvent}">
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
+    </DockPanel>
 </Window>

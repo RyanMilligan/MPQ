@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,18 +64,24 @@ namespace MPQSim.Base
             var classAttributes = storage.GetAll();
 
             StorageDefinition = storage;
-            
-            foreach (var attribute in GetAttributeList(propertyAttributes, classAttributes))
+
+            var attributes = GetAttributeList(propertyAttributes, classAttributes).ToList();
+
+            foreach (var attribute in attributes)
             {
                 attribute.Initialize(this);
-                set = attribute.FilterSet(this, set);
                 get = attribute.FilterGet(this, get);
             }
-            
             Get = get.Compile();
+            ToGet = get;
+
+            foreach (var attribute in attributes)
+            {
+                set = attribute.FilterSet(this, set);
+            }
+
             Set = set.Compile();
 
-            ToGet = get;
             ToSet = set;
         }
 
@@ -161,16 +168,9 @@ namespace MPQSim.Base
     public class PropertyStorageDefinition<TOwner> : IPropertyStorageDefinition
         where TOwner : IPropertyChangeable
     {
-        private static readonly MethodInfo CreatePropertyMethod = typeof(PropertyStorageDefinition<TOwner>).GetMethod("CreateProperty", BindingFlags.NonPublic | BindingFlags.Instance);
-
         public PropertyStorageDefinition(Type type) : this(Properties.GetStorage<TOwner>(type.BaseType))
         {
             ClassAttributes = type.GetCustomAttributes<PropertyAttribute>(false);
-
-            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                var p = CreatePropertyMethod.MakeGenericMethod(property.PropertyType).Invoke(this, new object[] { property });
-            }
         }
 
         public PropertyStorageDefinition(IPropertyStorageDefinition baseDefinition)
@@ -204,14 +204,11 @@ namespace MPQSim.Base
             return (Property<TOwner, TProperty>)prop;
         }
 
-        private IProperty<TOwner> CreateProperty<TProperty>(PropertyInfo property)
+        internal IProperty<TOwner> CreateProperty<TProperty>(Expression<Func<TOwner, TProperty>> property)
         {
-            var owner = Expression.Parameter(Types<TOwner>.Type, "owner");
-            var expression = Expression.Lambda<Func<TOwner, TProperty>>(Expression.Property(owner, property), owner);
+            var result = new Property<TOwner, TProperty>(this, property);
 
-            var result = new Property<TOwner, TProperty>(this, expression);
-
-            _properties.Add(property.Name, result);
+            _properties.Add(result.Name, result);
 
             return result;
         }
@@ -220,8 +217,15 @@ namespace MPQSim.Base
     public enum PropertyAttributeOrder
     {
         Storage,
-        Notification,
-        Filter
+        Filter,
+        Notification
+    }
+
+    public enum PropertyAttributeContext
+    {
+        Direct = 1,
+        Reference = 2,
+        List = 3
     }
 
     public abstract class PropertyAttribute : Attribute, IPropertyFilter
@@ -244,6 +248,24 @@ namespace MPQSim.Base
         public PropertyAttributeOrder Order { get; set; }
 
         public bool Reference { get; set; }
+    }
+
+    public class WeakAttribute : PropertyAttribute
+    {
+        public WeakAttribute()
+        {
+            Order = PropertyAttributeOrder.Filter;
+        }
+
+        public override Expression<Func<TOwner, TProperty>> FilterGet<TOwner, TProperty>(Property<TOwner, TProperty> property, Expression<Func<TOwner, TProperty>> get)
+        {
+            return base.FilterGet<TOwner, TProperty>(property, get);
+        }
+
+        public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property, Expression<Action<TOwner, TProperty>> set)
+        {
+            return base.FilterSet<TOwner, TProperty>(property, set);
+        }
     }
 
     public class LazyAttribute : PropertyAttribute
@@ -345,7 +367,11 @@ namespace MPQSim.Base
             {
                 var properties = typeof(Properties<>).MakeGenericType(baseType);
                 var field = properties.GetField("Storage", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-                return (IPropertyStorageDefinition)field.GetValue(null);
+                var result = (IPropertyStorageDefinition)field.GetValue(null);
+
+                RuntimeHelpers.RunClassConstructor(baseType.TypeHandle);
+
+                return result;
             }
             return null;
         }
@@ -356,16 +382,16 @@ namespace MPQSim.Base
             return Properties<TOwner>.Storage.GetProperty(property);
         }
 
-        public static TProperty Get<TOwner, TProperty>(this TOwner owner, Expression<Func<TOwner, TProperty>> property)
+        public static TProperty Get<TOwner, TProperty>(this TOwner owner, Expression<Func<TOwner, TProperty>> property, IProperty<TOwner> storageProperty)
             where TOwner : IPropertyChangeable
         {
-            return owner.GetProperty(property).Get(owner);
+            return (storageProperty as Property<TOwner, TProperty>).Get(owner);
         }
 
-        public static void Set<TOwner, TProperty>(this TOwner owner, Expression<Func<TOwner, TProperty>> property, TProperty newValue)
+        public static void Set<TOwner, TProperty>(this TOwner owner, Expression<Func<TOwner, TProperty>> property, TProperty newValue, IProperty<TOwner> storageProperty)
             where TOwner : IPropertyChangeable
         {
-            owner.GetProperty(property).Set(owner, newValue);
+            (storageProperty as Property<TOwner, TProperty>).Set(owner, newValue);
         }
 
         internal static IEnumerable<PropertyAttribute> GetAll(this IPropertyStorageDefinition storage)
@@ -386,6 +412,11 @@ namespace MPQSim.Base
         where TOwner : IPropertyChangeable
     {
         public static readonly PropertyStorageDefinition<TOwner> Storage = new PropertyStorageDefinition<TOwner>(Types<TOwner>.Type);
+
+        public static IProperty<TOwner> Property<TProperty>(Expression<Func<TOwner, TProperty>> property)
+        {
+            return Storage.CreateProperty(property);
+        }
     }
 
     public class PropertyChangeable : IPropertyChangeable
@@ -466,9 +497,89 @@ namespace MPQSim.Base
             public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property, Expression<Action<TOwner, TProperty>> set)
             {
                 return Expression.Lambda<Action<TOwner, TProperty>>(Expression.Block(
-                    Expression.Call(set.Parameters[0], Notify, Expression.Constant(property.Name)),
-                    set.Body), set.Parameters);
+                    set.Body,
+                    Expression.Call(set.Parameters[0], Notify, Expression.Constant(property.Name))), set.Parameters);
             }
+        }
+    }
+
+    public interface IOwned
+    {
+        object Owner { get; set; }
+    }
+    
+    public class AttachToAttribute : PropertyAttribute
+    {
+        public AttachToAttribute()
+        {
+            Order = PropertyAttributeOrder.Filter;
+        }
+
+        MethodInfo detachMethod, attachMethod;
+        public override void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        {
+            base.Initialize<TOwner, TProperty>(property);
+
+            attachMethod = Types<TOwner>.Type.GetMethod("AttachTo" + property.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            detachMethod = Types<TOwner>.Type.GetMethod("DetachFrom" + property.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        }
+
+        public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property, Expression<Action<TOwner, TProperty>> set)
+        {
+            var currentValue = Expression.Variable(Types<TProperty>.Type, "currentValue");
+            return Expression.Lambda<Action<TOwner, TProperty>>(Expression.Block(new[] { currentValue },
+                Expression.Assign(currentValue, Expression.Invoke(property.ToGet, set.Parameters[0])),
+                Expression.IfThen(Expression.ReferenceNotEqual(currentValue, Expression.Constant(null)),
+                    Expression.Call(set.Parameters[0], detachMethod)),
+                set.Body,
+                Expression.IfThen(Expression.ReferenceNotEqual(set.Parameters[1], Expression.Constant(null)),
+                    Expression.Call(set.Parameters[0], attachMethod))
+                ), set.Parameters);
+        }
+    }
+
+    public class OwnedAttribute : PropertyAttribute
+    {
+        public OwnedAttribute()
+        {
+            Order = PropertyAttributeOrder.Filter;
+        }
+
+        PropertyInfo ownerAttribute;
+        public override void Initialize<TOwner, TProperty>(Property<TOwner, TProperty> property)
+        {
+            base.Initialize<TOwner, TProperty>(property);
+
+            ownerAttribute = Types<TProperty>.Type.GetProperty("Owner", BindingFlags.Instance | BindingFlags.Public);
+        }
+
+        public override Expression<Action<TOwner, TProperty>> FilterSet<TOwner, TProperty>(Property<TOwner, TProperty> property, Expression<Action<TOwner, TProperty>> set)
+        {
+            return Expression.Lambda<Action<TOwner, TProperty>>(Expression.Block(
+                Expression.IfThen(Expression.ReferenceNotEqual(set.Parameters[1], Expression.Constant(null)),
+                    Expression.Assign(Expression.Property(set.Parameters[1], ownerAttribute), set.Parameters[0])
+                ),
+                set.Body), set.Parameters);
+        }
+    }
+
+    [Owned(Reference = true)]
+    public class Owned<TOwner> : Monitorable
+    {
+        public TOwner Owner
+        {
+            get { return this.Get(t => t.Owner, _Owner); }
+            set { this.Set(t => t.Owner, value, _Owner); }
+        }
+        private static readonly IProperty<Owned<TOwner>> _Owner = Properties<Owned<TOwner>>.Property(t => t.Owner);
+
+        protected virtual void AttachToOwner(IPropertyChangeable owner)
+        {
+        }
+
+        protected virtual void DetachFromOwner(IPropertyChangeable owner)
+        {
+
         }
     }
 
@@ -476,15 +587,10 @@ namespace MPQSim.Base
     {
         public string Name
         {
-            get
-            {
-                return this.Get(t => t.Name);
-            }
-            set
-            {
-                this.Set(t => t.Name, value);
-            }
+            get { return this.Get(t => t.Name, _Name); }
+            set { this.Set(t => t.Name, value, _Name); }
         }
+        private static readonly IProperty<Named> _Name = Properties<Named>.Property(t => t.Name);
 
         public override string ToString()
         {

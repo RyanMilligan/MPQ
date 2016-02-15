@@ -77,29 +77,67 @@ namespace PropertyTests
 
             Assert.AreEqual("thing", second.Value);
         }
+
+        [TestMethod]
+        public void TestOwned()
+        {
+            var test = new LazyField();
+
+            var first = test.Value;
+
+            Assert.AreEqual(first.Owner, test);
+        }
+
+        [TestMethod]
+        public void TestAttached()
+        {
+            var test = new AttachedTest();
+
+            test.Thing = new BasicField();
+
+           Assert.AreEqual(test, test.Thing.Owner);
+        }
     }
 
-    public class BasicField : PropertyChangeable
+    public class BasicField : Owned<IPropertyChangeable>
     {
-        public string Value {  get { return this.Get(t => t.Value); } set { this.Set(t => t.Value, value); } }
+        public string Value
+        {
+            get { return this.Get(t => t.Value, _Value); }
+            set { this.Set(t => t.Value, value, _Value); }
+        }
+        private static readonly IProperty<BasicField> _Value = Properties<BasicField>.Property(t => t.Value);
     }
 
     public class LazyField : PropertyChangeable
     {
         [Lazy]
-        public BasicField Value { get { return this.Get(t => t.Value); } set { this.Set(t => t.Value, value); } }
+        public BasicField Value
+        {
+            get { return this.Get(t => t.Value, _Value); }
+            set { this.Set(t => t.Value, value, _Value); }
+        }
+        private static readonly IProperty<LazyField> _Value = Properties<LazyField>.Property(t => t.Value);
 
         public AlwaysLazy Always
         {
-            get { return this.Get(t => t.Always); }
-            set { this.Set(t => t.Always, value); }
+            get { return this.Get(t => t.Always, _Always); }
+            set { this.Set(t => t.Always, value, _Always); }
         }
+        private static readonly IProperty<LazyField> _Always = Properties<LazyField>.Property(t => t.Always);
+
     }
 
     public class CustomLazy : PropertyChangeable
     {
         [Lazy]
-        public BasicField Value { get { return this.Get(t => t.Value); } set { this.Set(t => t.Value, value); } }
+        public BasicField Value
+        {
+            get { return this.Get(t => t.Value, _Value); }
+            set { this.Set(t => t.Value, value, _Value); }
+        }
+        private static readonly IProperty<CustomLazy> _Value = Properties<CustomLazy>.Property(t => t.Value);
+
 
         private BasicField CreateValue()
         {
@@ -112,7 +150,36 @@ namespace PropertyTests
 
     public class ObservableField : Monitorable
     {
-        public string Value { get { return this.Get(t => t.Value); } set { this.Set(t => t.Value, value); } }
+        public string Value
+        {
+            get { return this.Get(t => t.Value, _Value); }
+            set { this.Set(t => t.Value, value, _Value); }
+        }
+        private static readonly IProperty<ObservableField> _Value = Properties<ObservableField>.Property(t => t.Value);
+
+    }
+
+    public class AttachedTest : PropertyChangeable
+    {
+        [AttachTo]
+        public BasicField Thing
+        {
+            get { return this.Get(t => t.Thing, _Thing); }
+            set { this.Set(t => t.Thing, value, _Thing); }
+        }
+        private static readonly IProperty<AttachedTest> _Thing = Properties<AttachedTest>.Property(t => t.Thing);
+
+        private void AttachToThing()
+        {
+            Attached = true;
+        }
+
+        private void DetachFromThing()
+        {
+            Attached = false;
+        }
+
+        public bool Attached { get; set; }
     }
 
     [Lazy(Reference = true)]
