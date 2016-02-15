@@ -33,7 +33,7 @@ namespace PropertyTests
         [TestMethod]
         public void AlwaysLazyField()
         {
-            var test = new LazyField();
+            var test = new WithAlways();
 
             var first = test.Always;
 
@@ -118,14 +118,16 @@ namespace PropertyTests
             set { this.Set(t => t.Value, value, _Value); }
         }
         private static readonly IProperty<LazyField> _Value = Properties<LazyField>.Property(t => t.Value);
+    }
 
+    public class WithAlways : PropertyChangeable
+    {
         public AlwaysLazy Always
         {
             get { return this.Get(t => t.Always, _Always); }
             set { this.Set(t => t.Always, value, _Always); }
         }
-        private static readonly IProperty<LazyField> _Always = Properties<LazyField>.Property(t => t.Always);
-
+        private static readonly IProperty<WithAlways> _Always = Properties<WithAlways>.Property(t => t.Always);
     }
 
     public class CustomLazy : PropertyChangeable
