@@ -43,6 +43,11 @@ namespace MPQSim
 
     public class Node : Named
     {
+        public Node()
+        {
+            ApproximateTimeToClear = TimeSpan.FromMinutes(5);
+        }
+
         [XmlAttribute]
         public int Level
         {
@@ -58,6 +63,14 @@ namespace MPQSim
             set { this.Set(t => t.InitialScore, value, _InitialScore); }
         }
         private static readonly IProperty<Node> _InitialScore = Properties<Node>.Property(t => t.InitialScore);
+
+        public TimeSpan ApproximateTimeToClear
+        {
+            get { return this.Get(t => t.ApproximateTimeToClear, _ApproximateTimeToClear); }
+            set { this.Set(t => t.ApproximateTimeToClear, value, _ApproximateTimeToClear); }
+        }
+        private static readonly IProperty<Node> _ApproximateTimeToClear = Properties<Node>.Property(t => t.ApproximateTimeToClear);
+
     }
 
     public class RuntimeNode : Owned<RuntimeSubEvent>
@@ -102,6 +115,8 @@ namespace MPQSim
                 Time = Owner.Owner.CurrentTime,
                 Score = oldScore
             };
+
+            Owner.Owner.Advance(Node.ApproximateTimeToClear);
 
             Fights.Add(fight);
 

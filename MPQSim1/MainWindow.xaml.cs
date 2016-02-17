@@ -6,6 +6,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using TimelineLibrary;
 using System.Linq;
+using System;
 
 namespace MPQSim
 {
@@ -105,6 +106,15 @@ namespace MPQSim
                     }
                     return SelectedRun.SubEvents.Select(e => new TimelineBand()
                     {
+                        EventStore = new TimelineEventStore((from n in e.Nodes
+                                                            from f in n.Fights
+                                                            select new TimelineEvent()
+                        {
+                            StartDate = new DateTime(f.Time.Ticks),
+                            EndDate = new DateTime(f.Time.Ticks + n.Node.ApproximateTimeToClear.Ticks),
+                            Description = "Cleared node " + f.Node.Name,
+                            Title = "Fight"
+                        }).ToList(), false)
                     });
                 }
             }
