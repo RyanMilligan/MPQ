@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MPQSim"
         mc:Ignorable="d"
         xmlns:base="clr-namespace:MPQSim.Base"
+        xmlns:timeline="clr-namespace:TimelineLibrary;assembly=TimelineLibrary"
         Title="MainWindow" Height="350" Width="525"
         x:Name="Root">
     <Window.Resources>
@@ -38,8 +39,15 @@
                     <TextBlock>Run <Run Text="{Binding SelectedEvent.Name}" /> => <Run Text="{Binding SelectedStrategy.Name}" /></TextBlock>
                 </Button>
             </StackPanel>
-            <ListBox ItemsSource="{Binding Runs}">
+            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Runs}">
             </ListBox>
+            <ItemsControl ItemsSource="{Binding SelectedRun.TimelineBands}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <timeline:TimelineTray />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </DockPanel>
     </DockPanel>
 </Window>

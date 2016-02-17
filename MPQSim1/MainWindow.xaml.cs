@@ -1,8 +1,11 @@
 ﻿using MPQSim.Base;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
+using TimelineLibrary;
+using System.Linq;
 
 namespace MPQSim
 {
@@ -83,6 +86,28 @@ namespace MPQSim
                 set { this.Set(t => t.SelectedStrategy, value, _SelectedStrategy); }
             }
             private static readonly IProperty<MainWindowContext> _SelectedStrategy = Properties<MainWindowContext>.Property(t => t.SelectedStrategy);
+
+            public Schedule SelectedRun
+            {
+                get { return this.Get(t => t.SelectedRun, _SelectedRun); }
+                set { this.Set(t => t.SelectedRun, value, _SelectedRun); }
+            }
+            private static readonly IProperty<MainWindowContext> _SelectedRun = Properties<MainWindowContext>.Property(t => t.SelectedRun);
+
+
+            public IEnumerable<TimelineBand> TimelineBands
+            {
+                get
+                {
+                    if (SelectedStrategy == null)
+                    {
+                        return null;
+                    }
+                    return SelectedRun.SubEvents.Select(e => new TimelineBand()
+                    {
+                    });
+                }
+            }
         }
     }
 }

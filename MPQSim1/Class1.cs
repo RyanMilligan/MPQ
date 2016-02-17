@@ -207,19 +207,8 @@ namespace MPQSim
                 CurrentTime += interval;
             }
 
-            foreach (var node in Nodes)
-            {
-                
-            }
             return true;
         }
-
-        public ObservableCollection<RuntimeNode> Nodes
-        {
-            get { return this.Get(t => t.Nodes, _Nodes); }
-            set { this.Set(t => t.Nodes, value, _Nodes); }
-        }
-        private static readonly IProperty<Schedule> _Nodes = Properties<Schedule>.Property(t => t.Nodes);
 
         public int TotalScore
         {
