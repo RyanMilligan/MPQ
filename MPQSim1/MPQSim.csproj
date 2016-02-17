@@ -65,6 +65,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Base\Classes.cs" />
+    <Compile Include="Base\Command.cs" />
+    <Compile Include="Base\Helpers.cs" />
+    <Compile Include="Base\TemplateSelector.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
