@@ -1,0 +1,45 @@
+﻿<Window x:Class="MPQSim.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MPQSim"
+        mc:Ignorable="d"
+        xmlns:base="clr-namespace:MPQSim.Base"
+        Title="MainWindow" Height="350" Width="525"
+        x:Name="Root">
+    <Window.Resources>
+        <base:TemplateSelector x:Key="Templates">
+            <base:TemplateSelector.Templates>
+                <DataTemplate x:Key="INamed">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+                <DataTemplate x:Key="Schedule">
+                    <TextBlock>Run <Run Text="{Binding Event.Event.Name}" /> => <Run Text="{Binding Strategy.Name}" /></TextBlock>
+                </DataTemplate>
+            </base:TemplateSelector.Templates>
+        </base:TemplateSelector>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left">
+            <ListBox x:Name="Events" ItemsSource="{Binding Events}" 
+                     SelectedItem="{Binding SelectedEvent, Mode=TwoWay}"
+                     ItemTemplateSelector="{StaticResource Templates}" />
+            <ListBox x:Name="Strategies" ItemsSource="{Binding Strategies}" 
+                     SelectedItem="{Binding SelectedStrategy, Mode=TwoWay}"
+                     ItemTemplateSelector="{StaticResource Templates}" />
+            <ListBox x:Name="Runs" ItemsSource="{Binding Runs}"
+                     SelectedItem="{Binding SelectedRun, Mode=TwoWay}"
+                     ItemTemplateSelector="{StaticResource Templates}" />
+        </StackPanel>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <Button Command="{Binding ExecuteStrategy}">
+                    <TextBlock>Run <Run Text="{Binding SelectedEvent.Name}" /> => <Run Text="{Binding SelectedStrategy.Name}" /></TextBlock>
+                </Button>
+            </StackPanel>
+            <ListBox ItemsSource="{Binding Runs}">
+            </ListBox>
+        </DockPanel>
+    </DockPanel>
+</Window>
