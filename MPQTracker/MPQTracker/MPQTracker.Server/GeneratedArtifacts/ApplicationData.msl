@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping CdmEntityContainer="ApplicationData" StorageEntityContainer="ApplicationDataStore">
+    <EntitySetMapping Name="EventScores">
+      <EntityTypeMapping TypeName="IsTypeOf(LightSwitchApplication.EventScore)">
+        <MappingFragment StoreEntitySet="EventScores">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="Rank" ColumnName="Rank" />
+          <ScalarProperty Name="EventScore_EventSlice" ColumnName="EventScore_EventSlice" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EventSliceSet">
+      <EntityTypeMapping TypeName="IsTypeOf(LightSwitchApplication.EventSlice)">
+        <MappingFragment StoreEntitySet="EventSliceSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EventSlice_PvPInstance" ColumnName="EventSlice_PvPInstance" />
+          <ScalarProperty Name="SliceNumber" ColumnName="SliceNumber" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PvPEvents">
+      <EntityTypeMapping TypeName="IsTypeOf(LightSwitchApplication.PvPEvent)">
+        <MappingFragment StoreEntitySet="PvPEvents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PvPInstances">
+      <EntityTypeMapping TypeName="IsTypeOf(LightSwitchApplication.PvPInstance)">
+        <MappingFragment StoreEntitySet="PvPInstances">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PvPInstance_PvPEvent" ColumnName="PvPInstance_PvPEvent" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,663 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application
+  Name="LightSwitchApplication.MPQTracker.HTMLClient" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <Application.Attributes>
+    <Partial />
+  </Application.Attributes>
+  <Screen
+    Name="BrowseEvents">
+    <Screen.Attributes>
+      <SaveChangesTo
+        EntityContainer="ApplicationData" />
+    </Screen.Attributes>
+    <Screen.RootContentItem>
+      <ContentItem
+        Name="RootContentItem"
+        Kind="Screen"
+        View="Microsoft.LightSwitch.MobileWeb:Screen">
+        <ContentItem
+          Name="Tabs"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:TabPages">
+          <ContentItem
+            Name="Group"
+            Kind="Group">
+            <ContentItem
+              Name="PvPEvents"
+              Kind="Collection"
+              DataType="CollectionView$PvPEvent">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseEvents/Properties[PvPEvents]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="PvPEventsTemplate"
+                Kind="Details"
+                DataType="PvPEvent">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Name"
+                  Kind="Value"
+                  DataType=":String">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="PvPEvent/Properties[Name]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="CreatedBy"
+                  Kind="Value"
+                  DataType=":Person?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="PvPEvent/Properties[CreatedBy]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Created"
+                  Kind="Value"
+                  DataType=":DateTimeOffset?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="PvPEvent/Properties[Created]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ModifiedBy"
+                  Kind="Value"
+                  DataType=":Person?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="PvPEvent/Properties[ModifiedBy]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Modified"
+                  Kind="Value"
+                  DataType=":DateTimeOffset?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="PvPEvent/Properties[Modified]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="PvPInstances"
+              Kind="Collection"
+              DataType="CollectionView$PvPInstance">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseEvents/Properties[PvPInstances]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="PvPInstancesTemplate"
+                Kind="Details"
+                DataType="PvPInstance"
+                View="Microsoft.LightSwitch.MobileWeb:ColumnsLayout">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="StartTime"
+                  Kind="Value"
+                  DataType=":DateTime">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="PvPInstance/Properties[StartTime]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="AddPvPInstance1"
+              Kind="Command">
+              <ContentItem.PropertySources>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <CallExpression
+                        Target="!module/Methods[showAddEditPvPInstance]">
+                        <CallExpression.Attributes>
+                          <AssociatedCollection
+                            Collection="BrowseEvents/Properties[PvPInstances]" />
+                          <CreateNewEntity
+                            TargetParameter="!module/Methods[showAddEditPvPInstance]/Parameters[PvPInstance]" />
+                        </CallExpression.Attributes>
+                      </CallExpression>
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+                <ControlPropertySource
+                  Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                  <ScreenExpressionTree>
+                    <ChainExpression>
+                      <ConstantExpression
+                        Value="msls-add"
+                        ResultType=":String" />
+                    </ChainExpression>
+                  </ScreenExpressionTree>
+                </ControlPropertySource>
+              </ContentItem.PropertySources>
+            </ContentItem>
+            <ContentItem
+              Name="EventSliceCollection"
+              Kind="Collection"
+              DataType="CollectionView$EventSlice">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseEvents/Properties[EventSliceCollection]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="EventSliceCollectionTemplate"
+                Kind="Details"
+                DataType="EventSlice">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="PvPInstance"
+                  Kind="Details"
+                  DataType="PvPInstance">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventSlice/Properties[PvPInstance]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="PvPInstance1"
+                    Kind="Details"
+                    DataType="PvPInstance">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="SliceNumber"
+                  Kind="Value"
+                  DataType=":Int32">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventSlice/Properties[SliceNumber]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="CreatedBy2"
+                  Kind="Value"
+                  DataType=":Person?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventSlice/Properties[CreatedBy]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Created2"
+                  Kind="Value"
+                  DataType=":DateTimeOffset?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventSlice/Properties[Created]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ModifiedBy2"
+                  Kind="Value"
+                  DataType=":Person?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventSlice/Properties[ModifiedBy]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Modified2"
+                  Kind="Value"
+                  DataType=":DateTimeOffset?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventSlice/Properties[Modified]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem
+              Name="EventScores"
+              Kind="Collection"
+              DataType="CollectionView$EventScore">
+              <ContentItem.DataSource>
+                <ScreenExpressionTree>
+                  <ChainExpression>
+                    <MemberExpression
+                      Member="BrowseEvents/Properties[EventScores]" />
+                  </ChainExpression>
+                </ScreenExpressionTree>
+              </ContentItem.DataSource>
+              <ContentItem
+                Name="EventScoresTemplate"
+                Kind="Details"
+                DataType="EventScore">
+                <ContentItem.DataSource>
+                  <ScreenExpressionTree>
+                    <ChainExpression />
+                  </ScreenExpressionTree>
+                </ContentItem.DataSource>
+                <ContentItem
+                  Name="Score"
+                  Kind="Value"
+                  DataType=":Int32">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventScore/Properties[Score]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Rank"
+                  Kind="Value"
+                  DataType=":Int32">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventScore/Properties[Rank]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="EventSlice"
+                  Kind="Details"
+                  DataType="EventSlice">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventScore/Properties[EventSlice]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                  <ContentItem
+                    Name="EventSlice1"
+                    Kind="Details"
+                    DataType="EventSlice">
+                    <ContentItem.DataSource>
+                      <ScreenExpressionTree>
+                        <ChainExpression />
+                      </ScreenExpressionTree>
+                    </ContentItem.DataSource>
+                  </ContentItem>
+                </ContentItem>
+                <ContentItem
+                  Name="CreatedBy3"
+                  Kind="Value"
+                  DataType=":Person?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventScore/Properties[CreatedBy]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Created3"
+                  Kind="Value"
+                  DataType=":DateTimeOffset?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventScore/Properties[Created]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="ModifiedBy3"
+                  Kind="Value"
+                  DataType=":Person?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventScore/Properties[ModifiedBy]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+                <ContentItem
+                  Name="Modified3"
+                  Kind="Value"
+                  DataType=":DateTimeOffset?">
+                  <ContentItem.DataSource>
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <MemberExpression
+                          Member="EventScore/Properties[Modified]" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ContentItem.DataSource>
+                </ContentItem>
+              </ContentItem>
+            </ContentItem>
+            <ContentItem.CommandItems>
+              <ContentItem
+                Name="AddPvPEvent1"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditPvPEvent]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="BrowseEvents/Properties[PvPEvents]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditPvPEvent]/Parameters[PvPEvent]" />
+                          </CallExpression.Attributes>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+              <ContentItem
+                Name="AddPvPInstance"
+                Kind="Command">
+                <ContentItem.PropertySources>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[Tap]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <CallExpression
+                          Target="!module/Methods[showAddEditPvPInstance]">
+                          <CallExpression.Attributes>
+                            <AssociatedCollection
+                              Collection="BrowseEvents/Properties[PvPInstances]" />
+                            <CreateNewEntity
+                              TargetParameter="!module/Methods[showAddEditPvPInstance]/Parameters[PvPInstance]" />
+                          </CallExpression.Attributes>
+                        </CallExpression>
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                  <ControlPropertySource
+                    Property="Microsoft.LightSwitch.MobileWeb:RootCommand/Properties[Icon]">
+                    <ScreenExpressionTree>
+                      <ChainExpression>
+                        <ConstantExpression
+                          Value="msls-add"
+                          ResultType=":String" />
+                      </ChainExpression>
+                    </ScreenExpressionTree>
+                  </ControlPropertySource>
+                </ContentItem.PropertySources>
+              </ContentItem>
+            </ContentItem.CommandItems>
+          </ContentItem>
+          <ContentItem.PropertySources>
+            <ControlPropertySource
+              Property="Microsoft.LightSwitch.MobileWeb:RootControl/Properties[BrowseOnly]">
+              <ScreenExpressionTree>
+                <ChainExpression>
+                  <ConstantExpression
+                    Value="True"
+                    ResultType=":Boolean" />
+                </ChainExpression>
+              </ScreenExpressionTree>
+            </ControlPropertySource>
+          </ContentItem.PropertySources>
+        </ContentItem>
+        <ContentItem
+          Name="Popups"
+          Kind="Group"
+          View="Microsoft.LightSwitch.MobileWeb:DialogPages" />
+      </ContentItem>
+    </Screen.RootContentItem>
+    <Screen.Methods>
+      <ScreenMethod
+        Name="showTab">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="tabName"
+          ParameterType=":String" />
+      </ScreenMethod>
+      <ScreenMethod
+        Name="showDialog">
+        <ScreenMethod.Attributes>
+          <DisplayMethodByDefault
+            Display="True" />
+          <Generated />
+        </ScreenMethod.Attributes>
+        <ScreenMethodParameter
+          Name="dialogName"
+          ParameterType=":String" />
+      </ScreenMethod>
+      <ScreenMethod
+        Name="AddPvpInstance" />
+    </Screen.Methods>
+    <Screen.Properties>
+      <ScreenCollectionProperty
+        Name="PvPEvents"
+        PageSize="45"
+        PropertyType="CollectionView$PvPEvent">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PvPEventsQuery"
+            ReturnType="PvPEvent*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <MemberExpression
+                  Member="ApplicationData/Members[PvPEvents]" />
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseEvents/Properties[PvPEvents]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="PvPInstances"
+        PageSize="45"
+        PropertyType="CollectionView$PvPInstance">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="PvPInstancesQuery"
+            ReturnType="PvPInstance*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseEvents/Properties[PvPEvents]" />
+                  <MemberExpression
+                    Member="selectedItem" />
+                  <MemberExpression
+                    Member="PvPInstances" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseEvents/Properties[PvPInstances]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="EventSliceCollection"
+        PageSize="45"
+        PropertyType="CollectionView$EventSlice">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="EventSliceCollectionQuery"
+            ReturnType="EventSlice*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseEvents/Properties[PvPInstances]" />
+                  <MemberExpression
+                    Member="selectedItem" />
+                  <MemberExpression
+                    Member="EventSliceCollection" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseEvents/Properties[EventSliceCollection]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+      <ScreenCollectionProperty
+        Name="EventScores"
+        PageSize="45"
+        PropertyType="CollectionView$EventScore">
+        <ScreenCollectionProperty.Query>
+          <ScreenQueryDefinition
+            Name="EventScoresQuery"
+            ReturnType="EventScore*">
+            <ScreenQueryDefinition.FilterExpression>
+              <QueryFilterExpressionTree />
+            </ScreenQueryDefinition.FilterExpression>
+            <ScreenQueryDefinition.Source>
+              <QuerySourceExpressionTree>
+                <ChainExpression>
+                  <MemberExpression
+                    Member="BrowseEvents/Properties[EventSliceCollection]" />
+                  <MemberExpression
+                    Member="selectedItem" />
+                  <MemberExpression
+                    Member="EventScores" />
+                </ChainExpression>
+              </QuerySourceExpressionTree>
+            </ScreenQueryDefinition.Source>
+          </ScreenQueryDefinition>
+        </ScreenCollectionProperty.Query>
+        <ScreenExpressionTree>
+          <ChainExpression>
+            <CallExpression
+              Target="BrowseEvents/Properties[EventScores]/Query" />
+          </ChainExpression>
+        </ScreenExpressionTree>
+      </ScreenCollectionProperty>
+    </Screen.Properties>
+  </Screen>
+  <Application.Methods>
+    <ApplicationMethod
+      Name="showBrowseEvents">
+      <ApplicationMethod.Attributes>
+        <ShowScreenMethod
+          TargetScreen="BrowseEvents" />
+      </ApplicationMethod.Attributes>
+    </ApplicationMethod>
+  </Application.Methods>
+</Application>

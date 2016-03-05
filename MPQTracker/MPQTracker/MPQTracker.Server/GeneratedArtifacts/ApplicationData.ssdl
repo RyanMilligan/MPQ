@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ApplicationDataStore" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ApplicationDataStore">
+    <EntitySet Name="EventScores" EntityType="ApplicationDataStore.EventScore" store:Type="Tables" Schema="dbo" Table="EventScores" />
+    <EntitySet Name="EventSliceSet" EntityType="ApplicationDataStore.EventSlice" store:Type="Tables" Schema="dbo" Table="EventSliceSet" />
+    <EntitySet Name="PvPEvents" EntityType="ApplicationDataStore.PvPEvent" store:Type="Tables" Schema="dbo" Table="PvPEvents" />
+    <EntitySet Name="PvPInstances" EntityType="ApplicationDataStore.PvPInstance" store:Type="Tables" Schema="dbo" Table="PvPInstances" />
+    <AssociationSet Name="EventScore_EventSlice" Association="ApplicationDataStore.EventScore_EventSlice">
+      <End Role="EventSlice" EntitySet="EventSliceSet" />
+      <End Role="EventScore" EntitySet="EventScores" />
+    </AssociationSet>
+    <AssociationSet Name="PvPInstance_PvPEvent" Association="ApplicationDataStore.PvPInstance_PvPEvent">
+      <End Role="PvPEvent" EntitySet="PvPEvents" />
+      <End Role="PvPInstance" EntitySet="PvPInstances" />
+    </AssociationSet>
+    <AssociationSet Name="EventSlice_PvPInstance" Association="ApplicationDataStore.EventSlice_PvPInstance">
+      <End Role="PvPInstance" EntitySet="PvPInstances" />
+      <End Role="EventSlice" EntitySet="EventSliceSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="EventScore">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="Rank" Type="int" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Created" Type="datetimeoffset" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Modified" Type="datetimeoffset" />
+    <Property Name="RowVersion" Type="rowversion" Nullable="false" StoreGeneratedPattern="Computed" />
+    <Property Name="EventScore_EventSlice" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EventSlice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SliceNumber" Type="int" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Created" Type="datetimeoffset" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Modified" Type="datetimeoffset" />
+    <Property Name="RowVersion" Type="rowversion" Nullable="false" StoreGeneratedPattern="Computed" />
+    <Property Name="EventSlice_PvPInstance" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PvPEvent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Created" Type="datetimeoffset" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Modified" Type="datetimeoffset" />
+    <Property Name="RowVersion" Type="rowversion" Nullable="false" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="PvPInstance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Created" Type="datetimeoffset" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
+    <Property Name="Modified" Type="datetimeoffset" />
+    <Property Name="RowVersion" Type="rowversion" Nullable="false" StoreGeneratedPattern="Computed" />
+    <Property Name="PvPInstance_PvPEvent" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="EventScore_EventSlice">
+    <End Role="EventSlice" Type="ApplicationDataStore.EventSlice" Multiplicity="1">
+      <OnDeleteAnnotation Action="Restrict" xmlns="http://schemas.microsoft.com/LightSwitch/2013/edm/annotations" />
+    </End>
+    <End Role="EventScore" Type="ApplicationDataStore.EventScore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventSlice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventScore">
+        <PropertyRef Name="EventScore_EventSlice" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PvPInstance_PvPEvent">
+    <End Role="PvPEvent" Type="ApplicationDataStore.PvPEvent" Multiplicity="1">
+      <OnDeleteAnnotation Action="Restrict" xmlns="http://schemas.microsoft.com/LightSwitch/2013/edm/annotations" />
+    </End>
+    <End Role="PvPInstance" Type="ApplicationDataStore.PvPInstance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PvPEvent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PvPInstance">
+        <PropertyRef Name="PvPInstance_PvPEvent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EventSlice_PvPInstance">
+    <End Role="PvPInstance" Type="ApplicationDataStore.PvPInstance" Multiplicity="1">
+      <OnDeleteAnnotation Action="Restrict" xmlns="http://schemas.microsoft.com/LightSwitch/2013/edm/annotations" />
+    </End>
+    <End Role="EventSlice" Type="ApplicationDataStore.EventSlice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PvPInstance">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventSlice">
+        <PropertyRef Name="EventSlice_PvPInstance" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

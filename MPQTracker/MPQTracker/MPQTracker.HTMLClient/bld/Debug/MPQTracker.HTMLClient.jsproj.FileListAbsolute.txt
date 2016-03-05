@@ -1,0 +1,2 @@
+f:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\bin\Debug\LSResourceGeneratorsTask.mcs
+f:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\bin\Debug\LSClientCodeGeneratorsTask.mcs

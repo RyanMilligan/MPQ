@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ModelDocumentManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Documents>
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Properties\Client.lsml" Checksum="17ED5B3085DF245F2CBA01FD57214FDB2EF23769E7CBA57C537954061C202C06" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Properties\Proxies.lsml" Checksum="2155BE73009964319AE694218DA52C55EC3AAEE00B5491B38C8E2E6E2CDB6E7D" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\AddEditPvPEvent.lsml" Checksum="3782CF3E817C8351C38E5AC2E6D835D76ACC55773E0B8DFFD641670D204262FC" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\Browse.lsml" Checksum="46D4AAE5BDFA1D0BD75BCD19431A6CD8CC7C84158009152CD2BFF45F5D8A751A" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\AddEditPvPInstance.lsml" Checksum="E7158FC2F49CEBCB7F268C9BAC07F102055DCADE81252BEA76AF167984CCF512" />
+  </Documents>
+</ModelDocumentManifest>
