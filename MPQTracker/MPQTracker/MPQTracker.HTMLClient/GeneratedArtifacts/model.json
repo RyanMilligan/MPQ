@@ -1993,6 +1993,21 @@
       ]
     },
     {
+      "id": "Microsoft.LightSwitch.Cosmopolitan:!module",
+      "name": "Microsoft.LightSwitch.Cosmopolitan",
+      "globalItems":
+      [
+        {
+          "id": "Microsoft.LightSwitch.Cosmopolitan:CosmopolitanShell",
+          "name": "CosmopolitanShell"
+        },
+        {
+          "id": "Microsoft.LightSwitch.Cosmopolitan:CosmopolitanTheme",
+          "name": "CosmopolitanTheme"
+        }
+      ]
+    },
+    {
       "id": "Microsoft.LightSwitch.Extensions:!module",
       "name": "Microsoft.LightSwitch.Extensions",
       "globalItems":
@@ -2152,7 +2167,7 @@
       ]
     },
     {
-      "homeScreen": { "__id": "BrowseEvents" },
+      "homeScreen": { "__id": "NowReportingScreen" },
       "id": "!module",
       "name": "LightSwitchApplication.MPQTracker.HTMLClient",
       "logo": "/Content/Images/logo.png",
@@ -2162,6 +2177,7 @@
       "theme": { "__id": ":HTMLTheme" },
       ":@ModuleNamespace": { "namespace": "LightSwitchApplication" },
       ":@Partial": { "isPrimary": true },
+      ":@HomeScreen": { "value": { "__id": "NowReportingScreen" } },
       "globalItems":
       [
         {
@@ -2673,6 +2689,17 @@
                   "parameterType": { "__id": ":Int32?" }
                 }
               ]
+            },
+            {
+              "id": "ApplicationData/Members[NowReporting]",
+              "name": "NowReporting",
+              "elementType": { "__id": "PvPInstance" },
+              "query": { "__id": "ApplicationData/Members[NowReporting]" },
+              "returnType": { "__id": "PvPInstance*" },
+              "source":
+              {
+                "member": { "__id": "ApplicationData/Members[PvPInstances]" }
+              }
             }
           ]
         },
@@ -2832,6 +2859,13 @@
               ":@NotSearchable": { }
             },
             {
+              "id": "PvPInstance/Properties[Duration]",
+              "name": "Duration",
+              "propertyType": { "__id": ":DateTimeOffset" },
+              ":@Required": { },
+              ":@NotSearchable": { }
+            },
+            {
               "id": "PvPInstance/Properties[CreatedBy]",
               "name": "CreatedBy",
               "isReadOnly": true,
@@ -2894,7 +2928,7 @@
               "name": "PvPEvent",
               "multiplicity": "One",
               "entityType": { "__id": "PvPEvent" },
-              ":@DeleteRule": { "action": "Restrict" }
+              ":@DeleteRule": { "action": "Cascade" }
             }
           ]
         },
@@ -3018,13 +3052,13 @@
               "name": "PvPInstance",
               "multiplicity": "One",
               "entityType": { "__id": "PvPInstance" },
-              ":@DeleteRule": { "action": "Restrict" }
+              ":@DeleteRule": { "action": "Cascade" }
             }
           ]
         },
         {
           "__isEntityType": 1,
-          ":@SummaryProperty": { "property": { "__id": "EventScore/Properties[Id]" } },
+          ":@SummaryProperty": { "property": { "__id": "EventScore/Properties[ScreenName]" } },
           "id": "EventScore",
           "name": "EventScore",
           ":@CreatedModifiedPropertiesEnabled": { },
@@ -3076,6 +3110,15 @@
               "fromEnd": { "__id": "EventScore_EventSlice/Ends[EventScore]" },
               "propertyType": { "__id": "EventSlice" },
               "toEnd": { "__id": "EventScore_EventSlice/Ends[EventSlice]" }
+            },
+            {
+              "id": "EventScore/Properties[ScreenName]",
+              "name": "ScreenName",
+              "propertyType": { "__id": ":String?" },
+              ":@MaxLength":
+              {
+                "value": 255
+              }
             },
             {
               "id": "EventScore/Properties[CreatedBy]",
@@ -3140,7 +3183,162 @@
               "name": "EventSlice",
               "multiplicity": "One",
               "entityType": { "__id": "EventSlice" },
-              ":@DeleteRule": { "action": "Restrict" }
+              ":@DeleteRule": { "action": "Cascade" }
+            }
+          ]
+        },
+        {
+          "displayName": "Add Edit Event Score",
+          "id": "AddEditEventScore",
+          "name": "AddEditEventScore",
+          "launchMode": "Single",
+          ":@SaveChangesTo":
+          {
+            "property": { "__id": "DataWorkspace/Members[ApplicationData]" }
+          },
+          "rootContentItem":
+          {
+            "displayName": "Root Content Item",
+            "name": "RootContentItem",
+            "kind": "Screen",
+            "view": { "__id": ":Screen" },
+            "childContentItems":
+            [
+              {
+                "displayName": "Tabs",
+                "name": "Tabs",
+                "kind": "Group",
+                "view": { "__id": ":TabPages" },
+                "childContentItems":
+                [
+                  {
+                    "displayName": "Details",
+                    "name": "Details",
+                    "kind": "Tab",
+                    "view": { "__id": ":RowsLayout" },
+                    "childContentItems":
+                    [
+                      {
+                        "displayName": "columns",
+                        "name": "columns",
+                        "kind": "Details",
+                        "view": { "__id": ":ColumnsLayout" },
+                        "dataSource":
+                        {
+                          "member": { "__id": "AddEditEventScore/Properties[EventScore]" }
+                        },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "left",
+                            "name": "left",
+                            "kind": "Group",
+                            "view": { "__id": ":RowsLayout" },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Screen Name",
+                                "name": "ScreenName",
+                                "kind": "Value",
+                                "view": { "__id": ":TextBox" },
+                                "dataSource":
+                                {
+                                  "member": { "__id": "EventScore/Properties[ScreenName]" }
+                                }
+                              },
+                              {
+                                "displayName": "Score",
+                                "name": "Score",
+                                "kind": "Value",
+                                "view": { "__id": ":TextBox" },
+                                "dataSource":
+                                {
+                                  "member": { "__id": "EventScore/Properties[Score]" }
+                                }
+                              },
+                              {
+                                "displayName": "Rank",
+                                "name": "Rank",
+                                "kind": "Value",
+                                "view": { "__id": ":TextBox" },
+                                "dataSource":
+                                {
+                                  "member": { "__id": "EventScore/Properties[Rank]" }
+                                }
+                              }
+                            ],
+                            "propertySources":
+                            [
+                              {
+                                "property": { "__id": ":RootControl/Properties[MinWidth]" },
+                                "value": 200
+                              },
+                              {
+                                "property": { "__id": ":RootControl/Properties[MaxWidth]" },
+                                "value": 400
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "displayName": "Popups",
+                "name": "Popups",
+                "kind": "Group",
+                "view": { "__id": ":DialogPages" }
+              }
+            ],
+            "propertySources":
+            [
+              {
+                "property": { "__id": ":Screen/Properties[ScreenType]" },
+                "value": "Edit"
+              },
+              {
+                "property": { "__id": ":Screen/Properties[ShowAsDialog]" },
+                "value": true
+              }
+            ]
+          },
+          "methods":
+          [
+            {
+              "id": "AddEditEventScore/Methods[showTab]",
+              "name": "showTab",
+              "parameters":
+              [
+                {
+                  "id": "AddEditEventScore/Methods[showTab]/Parameters[tabName]",
+                  "name": "tabName",
+                  "parameterType": { "__id": ":String" }
+                }
+              ]
+            },
+            {
+              "id": "AddEditEventScore/Methods[showDialog]",
+              "name": "showDialog",
+              "parameters":
+              [
+                {
+                  "id": "AddEditEventScore/Methods[showDialog]/Parameters[dialogName]",
+                  "name": "dialogName",
+                  "parameterType": { "__id": ":String" }
+                }
+              ]
+            }
+          ],
+          "properties":
+          [
+            {
+              "id": "AddEditEventScore/Properties[EventScore]",
+              "name": "EventScore",
+              "elementType": { "__id": "EventScore" },
+              "propertyType": { "__id": "EventScore" },
+              ":@IsParameter": { }
             }
           ]
         },
@@ -3350,397 +3548,6 @@
           ]
         },
         {
-          "displayName": "Browse Events",
-          "id": "BrowseEvents",
-          "name": "BrowseEvents",
-          "launchMode": "Single",
-          ":@SaveChangesTo":
-          {
-            "property": { "__id": "DataWorkspace/Members[ApplicationData]" }
-          },
-          "rootContentItem":
-          {
-            "displayName": "Root Content Item",
-            "name": "RootContentItem",
-            "kind": "Screen",
-            "view": { "__id": ":Screen" },
-            "childContentItems":
-            [
-              {
-                "displayName": "Tabs",
-                "name": "Tabs",
-                "kind": "Group",
-                "view": { "__id": ":TabPages" },
-                "childContentItems":
-                [
-                  {
-                    "displayName": "Group",
-                    "name": "Group",
-                    "kind": "Tab",
-                    "view": { "__id": ":RowsLayout" },
-                    "childContentItems":
-                    [
-                      {
-                        "displayName": "Pv PEvents",
-                        "name": "PvPEvents",
-                        "kind": "Collection",
-                        "view": { "__id": ":List" },
-                        "dataSource":
-                        {
-                          "member": { "__id": "BrowseEvents/Properties[PvPEvents]" }
-                        },
-                        "childContentItems":
-                        [
-                          {
-                            "displayName": "Pv PEvent",
-                            "name": "PvPEventsTemplate",
-                            "kind": "Value",
-                            "view": { "__id": ":Text" },
-                            "dataSource":
-                            {
-                              "member": { "__id": "PvPEvent/Properties[Name]" }
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "displayName": "Pv PInstances",
-                        "name": "PvPInstances",
-                        "kind": "Collection",
-                        "view": { "__id": ":List" },
-                        "dataSource":
-                        {
-                          "member": { "__id": "BrowseEvents/Properties[PvPInstances]" }
-                        },
-                        "childContentItems":
-                        [
-                          {
-                            "displayName": "Pv PInstance",
-                            "name": "PvPInstancesTemplate",
-                            "kind": "Details",
-                            "view": { "__id": ":ColumnsLayout" },
-                            "dataSource":
-                            {
-                              "links":
-                              [
-                              ]
-                            },
-                            "childContentItems":
-                            [
-                              {
-                                "displayName": "Start Time",
-                                "name": "StartTime",
-                                "kind": "Value",
-                                "view": { "__id": ":Text" },
-                                "dataSource":
-                                {
-                                  "member": { "__id": "PvPInstance/Properties[StartTime]" }
-                                }
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "displayName": "Add Pv PInstance1",
-                        "name": "AddPvPInstance1",
-                        "kind": "Command",
-                        "view": { "__id": ":Button" },
-                        "propertySources":
-                        [
-                          {
-                            "property": { "__id": ":RootControl/Properties[Tap]" },
-                            "source":
-                            {
-                              "target": { "__id": "!module/Methods[showAddEditPvPInstance]" },
-                              ":@AssociatedCollection": { "collection": { "__id": "BrowseEvents/Properties[PvPInstances]" } },
-                              ":@CreateNewEntity":
-                              {
-                                "targetParameter": { "__id": "!module/Methods[showAddEditPvPInstance]/Parameters[PvPInstance]" }
-                              }
-                            }
-                          },
-                          {
-                            "property": { "__id": ":RootCommand/Properties[Icon]" },
-                            "value": "msls-add"
-                          }
-                        ]
-                      },
-                      {
-                        "displayName": "Event Slice Collection",
-                        "name": "EventSliceCollection",
-                        "kind": "Collection",
-                        "view": { "__id": ":List" },
-                        "dataSource":
-                        {
-                          "member": { "__id": "BrowseEvents/Properties[EventSliceCollection]" }
-                        },
-                        "childContentItems":
-                        [
-                          {
-                            "displayName": "Event Slice",
-                            "name": "EventSliceCollectionTemplate",
-                            "kind": "Value",
-                            "view": { "__id": ":Text" },
-                            "dataSource":
-                            {
-                              "member": { "__id": "EventSlice/Properties[Id]" }
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "displayName": "Event Scores",
-                        "name": "EventScores",
-                        "kind": "Collection",
-                        "view": { "__id": ":List" },
-                        "dataSource":
-                        {
-                          "member": { "__id": "BrowseEvents/Properties[EventScores]" }
-                        },
-                        "childContentItems":
-                        [
-                          {
-                            "displayName": "Event Score",
-                            "name": "EventScoresTemplate",
-                            "kind": "Value",
-                            "view": { "__id": ":Text" },
-                            "dataSource":
-                            {
-                              "member": { "__id": "EventScore/Properties[Id]" }
-                            }
-                          }
-                        ]
-                      }
-                    ],
-                    "commandItems":
-                    [
-                      {
-                        "displayName": "Add Pv PEvent1",
-                        "name": "AddPvPEvent1",
-                        "kind": "Command",
-                        "view": { "__id": ":CommandBarButton" },
-                        "propertySources":
-                        [
-                          {
-                            "property": { "__id": ":RootControl/Properties[Tap]" },
-                            "source":
-                            {
-                              "target": { "__id": "!module/Methods[showAddEditPvPEvent]" },
-                              ":@AssociatedCollection": { "collection": { "__id": "BrowseEvents/Properties[PvPEvents]" } },
-                              ":@CreateNewEntity":
-                              {
-                                "targetParameter": { "__id": "!module/Methods[showAddEditPvPEvent]/Parameters[PvPEvent]" }
-                              }
-                            }
-                          },
-                          {
-                            "property": { "__id": ":RootCommand/Properties[Icon]" },
-                            "value": "msls-add"
-                          }
-                        ]
-                      },
-                      {
-                        "displayName": "Add Pv PInstance",
-                        "name": "AddPvPInstance",
-                        "kind": "Command",
-                        "view": { "__id": ":CommandBarButton" },
-                        "propertySources":
-                        [
-                          {
-                            "property": { "__id": ":RootControl/Properties[Tap]" },
-                            "source":
-                            {
-                              "target": { "__id": "!module/Methods[showAddEditPvPInstance]" },
-                              ":@AssociatedCollection": { "collection": { "__id": "BrowseEvents/Properties[PvPInstances]" } },
-                              ":@CreateNewEntity":
-                              {
-                                "targetParameter": { "__id": "!module/Methods[showAddEditPvPInstance]/Parameters[PvPInstance]" }
-                              }
-                            }
-                          },
-                          {
-                            "property": { "__id": ":RootCommand/Properties[Icon]" },
-                            "value": "msls-add"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "propertySources":
-                [
-                  {
-                    "property": { "__id": ":RootControl/Properties[BrowseOnly]" },
-                    "value": true
-                  }
-                ]
-              },
-              {
-                "displayName": "Popups",
-                "name": "Popups",
-                "kind": "Group",
-                "view": { "__id": ":DialogPages" }
-              }
-            ]
-          },
-          "methods":
-          [
-            {
-              "id": "BrowseEvents/Methods[showTab]",
-              "name": "showTab",
-              "parameters":
-              [
-                {
-                  "id": "BrowseEvents/Methods[showTab]/Parameters[tabName]",
-                  "name": "tabName",
-                  "parameterType": { "__id": ":String" }
-                }
-              ]
-            },
-            {
-              "id": "BrowseEvents/Methods[showDialog]",
-              "name": "showDialog",
-              "parameters":
-              [
-                {
-                  "id": "BrowseEvents/Methods[showDialog]/Parameters[dialogName]",
-                  "name": "dialogName",
-                  "parameterType": { "__id": ":String" }
-                }
-              ]
-            },
-            {
-              "id": "BrowseEvents/Methods[AddPvpInstance]",
-              "name": "AddPvpInstance"
-            }
-          ],
-          "properties":
-          [
-            {
-              "id": "BrowseEvents/Properties[PvPEvents]",
-              "name": "PvPEvents",
-              "pageSize": 45,
-              "elementType": { "__id": "PvPEvent" },
-              "propertyType": { "__id": "CollectionView$PvPEvent" },
-              "query":
-              {
-                "id": "BrowseEvents/Properties[PvPEvents]/Query",
-                "name": "PvPEventsQuery",
-                "elementType": { "__id": "PvPEvent" },
-                "returnType": { "__id": "PvPEvent*" },
-                "source":
-                {
-                  "member": { "__id": "ApplicationData/Members[PvPEvents]" }
-                }
-              },
-              "source":
-              {
-                "target": { "__id": "BrowseEvents/Properties[PvPEvents]/Query" }
-              }
-            },
-            {
-              "id": "BrowseEvents/Properties[PvPInstances]",
-              "name": "PvPInstances",
-              "pageSize": 45,
-              "elementType": { "__id": "PvPInstance" },
-              "propertyType": { "__id": "CollectionView$PvPInstance" },
-              "query":
-              {
-                "id": "BrowseEvents/Properties[PvPInstances]/Query",
-                "name": "PvPInstancesQuery",
-                "elementType": { "__id": "PvPInstance" },
-                "returnType": { "__id": "PvPInstance*" },
-                "source":
-                {
-                  "links":
-                  [
-                    {
-                      "member": { "__id": "BrowseEvents/Properties[PvPEvents]" }
-                    },
-                    {
-                      "member": { "__id": "CollectionView$PvPEvent/Properties[selectedItem]" }
-                    },
-                    {
-                      "member": { "__id": "PvPEvent/Properties[PvPInstances]" }
-                    }
-                  ]
-                }
-              },
-              "source":
-              {
-                "target": { "__id": "BrowseEvents/Properties[PvPInstances]/Query" }
-              }
-            },
-            {
-              "id": "BrowseEvents/Properties[EventSliceCollection]",
-              "name": "EventSliceCollection",
-              "pageSize": 45,
-              "elementType": { "__id": "EventSlice" },
-              "propertyType": { "__id": "CollectionView$EventSlice" },
-              "query":
-              {
-                "id": "BrowseEvents/Properties[EventSliceCollection]/Query",
-                "name": "EventSliceCollectionQuery",
-                "elementType": { "__id": "EventSlice" },
-                "returnType": { "__id": "EventSlice*" },
-                "source":
-                {
-                  "links":
-                  [
-                    {
-                      "member": { "__id": "BrowseEvents/Properties[PvPInstances]" }
-                    },
-                    {
-                      "member": { "__id": "CollectionView$PvPInstance/Properties[selectedItem]" }
-                    },
-                    {
-                      "member": { "__id": "PvPInstance/Properties[EventSliceCollection]" }
-                    }
-                  ]
-                }
-              },
-              "source":
-              {
-                "target": { "__id": "BrowseEvents/Properties[EventSliceCollection]/Query" }
-              }
-            },
-            {
-              "id": "BrowseEvents/Properties[EventScores]",
-              "name": "EventScores",
-              "pageSize": 45,
-              "elementType": { "__id": "EventScore" },
-              "propertyType": { "__id": "CollectionView$EventScore" },
-              "query":
-              {
-                "id": "BrowseEvents/Properties[EventScores]/Query",
-                "name": "EventScoresQuery",
-                "elementType": { "__id": "EventScore" },
-                "returnType": { "__id": "EventScore*" },
-                "source":
-                {
-                  "links":
-                  [
-                    {
-                      "member": { "__id": "BrowseEvents/Properties[EventSliceCollection]" }
-                    },
-                    {
-                      "member": { "__id": "CollectionView$EventSlice/Properties[selectedItem]" }
-                    },
-                    {
-                      "member": { "__id": "EventSlice/Properties[EventScores]" }
-                    }
-                  ]
-                }
-              },
-              "source":
-              {
-                "target": { "__id": "BrowseEvents/Properties[EventScores]/Query" }
-              }
-            }
-          ]
-        },
-        {
           "displayName": "Add Edit Pv PInstance",
           "id": "AddEditPvPInstance",
           "name": "AddEditPvPInstance",
@@ -3917,10 +3724,1013 @@
               ":@IsParameter": { }
             }
           ]
+        },
+        {
+          "displayName": "Browse Events",
+          "id": "BrowseEvents",
+          "name": "BrowseEvents",
+          "launchMode": "Single",
+          ":@SaveChangesTo":
+          {
+            "property": { "__id": "DataWorkspace/Members[ApplicationData]" }
+          },
+          "rootContentItem":
+          {
+            "displayName": "Root Content Item",
+            "name": "RootContentItem",
+            "kind": "Screen",
+            "view": { "__id": ":Screen" },
+            "childContentItems":
+            [
+              {
+                "displayName": "Tabs",
+                "name": "Tabs",
+                "kind": "Group",
+                "view": { "__id": ":TabPages" },
+                "childContentItems":
+                [
+                  {
+                    "displayName": "Events",
+                    "name": "Group",
+                    "kind": "Tab",
+                    "view": { "__id": ":RowsLayout" },
+                    "childContentItems":
+                    [
+                      {
+                        "displayName": "Group1",
+                        "name": "Group1",
+                        "kind": "Group",
+                        "view": { "__id": ":ColumnsLayout" },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "Pv PEvents",
+                            "name": "PvPEvents",
+                            "kind": "Collection",
+                            "view": { "__id": ":TileList" },
+                            "dataSource":
+                            {
+                              "member": { "__id": "BrowseEvents/Properties[PvPEvents]" }
+                            },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Pv PEvent",
+                                "name": "PvPEventsTemplate",
+                                "kind": "Details",
+                                "view": { "__id": ":ColumnsLayout" },
+                                "dataSource":
+                                {
+                                  "links":
+                                  [
+                                  ]
+                                },
+                                "childContentItems":
+                                [
+                                  {
+                                    "displayName": "Name",
+                                    "name": "Name",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "PvPEvent/Properties[Name]" }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "displayName": "Add Pv PEvent",
+                            "name": "AddPvPEvent",
+                            "kind": "Command",
+                            "view": { "__id": ":Button" },
+                            "propertySources":
+                            [
+                              {
+                                "property": { "__id": ":RootControl/Properties[Tap]" },
+                                "source":
+                                {
+                                  "target": { "__id": "!module/Methods[showAddEditPvPEvent]" },
+                                  ":@AssociatedCollection": { "collection": { "__id": "BrowseEvents/Properties[PvPEvents]" } },
+                                  ":@CreateNewEntity":
+                                  {
+                                    "targetParameter": { "__id": "!module/Methods[showAddEditPvPEvent]/Parameters[PvPEvent]" }
+                                  }
+                                }
+                              },
+                              {
+                                "property": { "__id": ":RootCommand/Properties[Icon]" },
+                                "value": "msls-add"
+                              }
+                            ]
+                          },
+                          {
+                            "displayName": "Delete Selected Event",
+                            "name": "deleteSelectedEvent",
+                            "kind": "Command",
+                            "view": { "__id": ":Button" },
+                            "propertySources":
+                            [
+                              {
+                                "property": { "__id": ":RootControl/Properties[Tap]" },
+                                "source":
+                                {
+                                  "target": { "__id": "BrowseEvents/Methods[deleteSelectedEvent]" }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "displayName": "Edit Pv PEvent",
+                            "name": "EditPvPEvent",
+                            "kind": "Command",
+                            "view": { "__id": ":Button" },
+                            "propertySources":
+                            [
+                              {
+                                "property": { "__id": ":RootControl/Properties[Tap]" },
+                                "source":
+                                {
+                                  "target": { "__id": "!module/Methods[showAddEditPvPEvent]" },
+                                  ":@AssociatedCollection": { "collection": { "__id": "BrowseEvents/Properties[PvPEvents]" } },
+                                  "arguments":
+                                  [
+                                    {
+                                      "parameter": { "__id": "!module/Methods[showAddEditPvPEvent]/Parameters[PvPEvent]" },
+                                      "value":
+                                      {
+                                        "links":
+                                        [
+                                          {
+                                            "member": { "__id": "BrowseEvents/Properties[PvPEvents]" }
+                                          },
+                                          {
+                                            "member": { "__id": "CollectionView$PvPEvent/Properties[selectedItem]" }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "property": { "__id": ":RootCommand/Properties[Icon]" },
+                                "value": "msls-edit"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "displayName": "Group2",
+                        "name": "Group2",
+                        "kind": "Group",
+                        "view": { "__id": ":ColumnsLayout" },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "Pv PInstances",
+                            "name": "PvPInstances",
+                            "kind": "Collection",
+                            "view": { "__id": ":TileList" },
+                            "dataSource":
+                            {
+                              "member": { "__id": "BrowseEvents/Properties[PvPInstances]" }
+                            },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Pv PInstance",
+                                "name": "PvPInstancesTemplate",
+                                "kind": "Details",
+                                "view": { "__id": ":RowsLayout" },
+                                "dataSource":
+                                {
+                                  "links":
+                                  [
+                                  ]
+                                },
+                                "childContentItems":
+                                [
+                                  {
+                                    "displayName": "Start Time",
+                                    "name": "StartTime",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "PvPInstance/Properties[StartTime]" }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "displayName": "Add Pv PInstance",
+                            "name": "AddPvPInstance",
+                            "kind": "Command",
+                            "view": { "__id": ":Button" },
+                            "propertySources":
+                            [
+                              {
+                                "property": { "__id": ":RootControl/Properties[Tap]" },
+                                "source":
+                                {
+                                  "target": { "__id": "!module/Methods[showAddEditPvPInstance]" },
+                                  ":@AssociatedCollection": { "collection": { "__id": "BrowseEvents/Properties[PvPInstances]" } },
+                                  ":@CreateNewEntity":
+                                  {
+                                    "targetParameter": { "__id": "!module/Methods[showAddEditPvPInstance]/Parameters[PvPInstance]" }
+                                  }
+                                }
+                              },
+                              {
+                                "property": { "__id": ":RootCommand/Properties[Icon]" },
+                                "value": "msls-add"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "displayName": "Group3",
+                        "name": "Group3",
+                        "kind": "Group",
+                        "view": { "__id": ":ColumnsLayout" },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "Event Slice Collection",
+                            "name": "EventSliceCollection",
+                            "kind": "Collection",
+                            "view": { "__id": ":TileList" },
+                            "dataSource":
+                            {
+                              "member": { "__id": "BrowseEvents/Properties[EventSliceCollection]" }
+                            },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Event Slice",
+                                "name": "EventSliceCollectionTemplate",
+                                "kind": "Details",
+                                "view": { "__id": ":RowsLayout" },
+                                "dataSource":
+                                {
+                                  "links":
+                                  [
+                                  ]
+                                },
+                                "childContentItems":
+                                [
+                                  {
+                                    "displayName": "Slice Number",
+                                    "name": "SliceNumber",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventSlice/Properties[SliceNumber]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Screen Content",
+                                    "name": "ScreenContent",
+                                    "kind": "ScreenContent",
+                                    "view": { "__id": ":ScreenCustomControl" }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "displayName": "Group4",
+                        "name": "Group4",
+                        "kind": "Group",
+                        "view": { "__id": ":ColumnsLayout" },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "Event Scores",
+                            "name": "EventScores",
+                            "kind": "Collection",
+                            "view": { "__id": ":Table" },
+                            "dataSource":
+                            {
+                              "member": { "__id": "BrowseEvents/Properties[EventScores]" }
+                            },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Event Score",
+                                "name": "EventScoresTemplate",
+                                "kind": "Details",
+                                "view": { "__id": ":TableRowLayout" },
+                                "dataSource":
+                                {
+                                  "links":
+                                  [
+                                  ]
+                                },
+                                "childContentItems":
+                                [
+                                  {
+                                    "displayName": "Screen Name",
+                                    "name": "ScreenName",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[ScreenName]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Score",
+                                    "name": "Score",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[Score]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Rank",
+                                    "name": "Rank",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[Rank]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Created By",
+                                    "name": "CreatedBy",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[CreatedBy]" }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "displayName": "Add Event Score",
+                            "name": "AddEventScore",
+                            "kind": "Command",
+                            "view": { "__id": ":Button" },
+                            "propertySources":
+                            [
+                              {
+                                "property": { "__id": ":RootControl/Properties[Tap]" },
+                                "source":
+                                {
+                                  "target": { "__id": "!module/Methods[showAddEditEventScore]" },
+                                  ":@AssociatedCollection": { "collection": { "__id": "BrowseEvents/Properties[EventScores]" } },
+                                  ":@CreateNewEntity":
+                                  {
+                                    "targetParameter": { "__id": "!module/Methods[showAddEditEventScore]/Parameters[EventScore]" }
+                                  }
+                                }
+                              },
+                              {
+                                "property": { "__id": ":RootCommand/Properties[Icon]" },
+                                "value": "msls-add"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "propertySources":
+                [
+                  {
+                    "property": { "__id": ":RootControl/Properties[BrowseOnly]" },
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "displayName": "Popups",
+                "name": "Popups",
+                "kind": "Group",
+                "view": { "__id": ":DialogPages" }
+              }
+            ]
+          },
+          "methods":
+          [
+            {
+              "id": "BrowseEvents/Methods[showTab]",
+              "name": "showTab",
+              "parameters":
+              [
+                {
+                  "id": "BrowseEvents/Methods[showTab]/Parameters[tabName]",
+                  "name": "tabName",
+                  "parameterType": { "__id": ":String" }
+                }
+              ]
+            },
+            {
+              "id": "BrowseEvents/Methods[showDialog]",
+              "name": "showDialog",
+              "parameters":
+              [
+                {
+                  "id": "BrowseEvents/Methods[showDialog]/Parameters[dialogName]",
+                  "name": "dialogName",
+                  "parameterType": { "__id": ":String" }
+                }
+              ]
+            },
+            {
+              "id": "BrowseEvents/Methods[deleteSelectedEvent]",
+              "name": "deleteSelectedEvent"
+            }
+          ],
+          "properties":
+          [
+            {
+              "id": "BrowseEvents/Properties[PvPEvents]",
+              "name": "PvPEvents",
+              "pageSize": 45,
+              "elementType": { "__id": "PvPEvent" },
+              "propertyType": { "__id": "CollectionView$PvPEvent" },
+              "query":
+              {
+                "id": "BrowseEvents/Properties[PvPEvents]/Query",
+                "name": "PvPEventsQuery",
+                "elementType": { "__id": "PvPEvent" },
+                "returnType": { "__id": "PvPEvent*" },
+                "source":
+                {
+                  "member": { "__id": "ApplicationData/Members[PvPEvents]" }
+                }
+              },
+              "source":
+              {
+                "target": { "__id": "BrowseEvents/Properties[PvPEvents]/Query" }
+              }
+            },
+            {
+              "id": "BrowseEvents/Properties[PvPInstances]",
+              "name": "PvPInstances",
+              "pageSize": 45,
+              "elementType": { "__id": "PvPInstance" },
+              "propertyType": { "__id": "CollectionView$PvPInstance" },
+              "query":
+              {
+                "id": "BrowseEvents/Properties[PvPInstances]/Query",
+                "name": "PvPInstancesQuery",
+                "elementType": { "__id": "PvPInstance" },
+                "returnType": { "__id": "PvPInstance*" },
+                "source":
+                {
+                  "links":
+                  [
+                    {
+                      "member": { "__id": "BrowseEvents/Properties[PvPEvents]" }
+                    },
+                    {
+                      "member": { "__id": "CollectionView$PvPEvent/Properties[selectedItem]" }
+                    },
+                    {
+                      "member": { "__id": "PvPEvent/Properties[PvPInstances]" }
+                    }
+                  ]
+                }
+              },
+              "source":
+              {
+                "target": { "__id": "BrowseEvents/Properties[PvPInstances]/Query" }
+              }
+            },
+            {
+              "id": "BrowseEvents/Properties[EventSliceCollection]",
+              "name": "EventSliceCollection",
+              "pageSize": 45,
+              "elementType": { "__id": "EventSlice" },
+              "propertyType": { "__id": "CollectionView$EventSlice" },
+              "query":
+              {
+                "id": "BrowseEvents/Properties[EventSliceCollection]/Query",
+                "name": "EventSliceCollectionQuery",
+                "elementType": { "__id": "EventSlice" },
+                "returnType": { "__id": "EventSlice*" },
+                "source":
+                {
+                  "links":
+                  [
+                    {
+                      "member": { "__id": "BrowseEvents/Properties[PvPInstances]" }
+                    },
+                    {
+                      "member": { "__id": "CollectionView$PvPInstance/Properties[selectedItem]" }
+                    },
+                    {
+                      "member": { "__id": "PvPInstance/Properties[EventSliceCollection]" }
+                    }
+                  ]
+                }
+              },
+              "source":
+              {
+                "target": { "__id": "BrowseEvents/Properties[EventSliceCollection]/Query" }
+              }
+            },
+            {
+              "id": "BrowseEvents/Properties[EventScores]",
+              "name": "EventScores",
+              "pageSize": 45,
+              "elementType": { "__id": "EventScore" },
+              "propertyType": { "__id": "CollectionView$EventScore" },
+              "query":
+              {
+                "id": "BrowseEvents/Properties[EventScores]/Query",
+                "name": "EventScoresQuery",
+                "elementType": { "__id": "EventScore" },
+                "returnType": { "__id": "EventScore*" },
+                "source":
+                {
+                  "links":
+                  [
+                    {
+                      "member": { "__id": "BrowseEvents/Properties[EventSliceCollection]" }
+                    },
+                    {
+                      "member": { "__id": "CollectionView$EventSlice/Properties[selectedItem]" }
+                    },
+                    {
+                      "member": { "__id": "EventSlice/Properties[EventScores]" }
+                    }
+                  ]
+                },
+                "sortCriteria":
+                [
+                  {
+                    "member": { "__id": "EventScore/Properties[Rank]" }
+                  }
+                ]
+              },
+              "source":
+              {
+                "target": { "__id": "BrowseEvents/Properties[EventScores]/Query" }
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "Now Reporting",
+          "id": "NowReportingScreen",
+          "name": "NowReportingScreen",
+          "launchMode": "Single",
+          ":@SaveChangesTo":
+          {
+            "property": { "__id": "DataWorkspace/Members[ApplicationData]" }
+          },
+          "rootContentItem":
+          {
+            "displayName": "Now Reporting",
+            "name": "RootContentItem",
+            "kind": "Screen",
+            "view": { "__id": ":Screen" },
+            "childContentItems":
+            [
+              {
+                "displayName": "Tabs",
+                "name": "Tabs",
+                "kind": "Group",
+                "view": { "__id": ":TabPages" },
+                "childContentItems":
+                [
+                  {
+                    "displayName": "Group",
+                    "name": "Group",
+                    "kind": "Tab",
+                    "view": { "__id": ":RowsLayout" },
+                    "childContentItems":
+                    [
+                      {
+                        "displayName": "Now Reporting",
+                        "name": "NowReporting",
+                        "kind": "Collection",
+                        "view": { "__id": ":TileList" },
+                        "dataSource":
+                        {
+                          "member": { "__id": "NowReportingScreen/Properties[NowReporting]" }
+                        },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "Pv PInstance",
+                            "name": "NowReportingTemplate",
+                            "kind": "Details",
+                            "view": { "__id": ":RowsLayout" },
+                            "dataSource":
+                            {
+                              "links":
+                              [
+                              ]
+                            },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Pv PEvent",
+                                "name": "PvPEvent2",
+                                "kind": "Details",
+                                "view": { "__id": ":ColumnsLayout" },
+                                "dataSource":
+                                {
+                                  "member": { "__id": "PvPInstance/Properties[PvPEvent]" }
+                                },
+                                "childContentItems":
+                                [
+                                  {
+                                    "displayName": "Name",
+                                    "name": "Name",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "PvPEvent/Properties[Name]" }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "displayName": "Start Time",
+                                "name": "StartTime1",
+                                "kind": "Value",
+                                "view": { "__id": ":Text" },
+                                "dataSource":
+                                {
+                                  "member": { "__id": "PvPInstance/Properties[StartTime]" }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "displayName": "Selected Item",
+                        "name": "NowReporting_selectedItem",
+                        "kind": "Details",
+                        "view": { "__id": ":RowsLayout" },
+                        "dataSource":
+                        {
+                          "links":
+                          [
+                            {
+                              "member": { "__id": "NowReportingScreen/Properties[NowReporting]" }
+                            },
+                            {
+                              "member": { "__id": "CollectionView$PvPInstance/Properties[selectedItem]" }
+                            }
+                          ]
+                        },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "Event Slice Collection",
+                            "name": "EventSliceCollection",
+                            "kind": "Collection",
+                            "view": { "__id": ":TileList" },
+                            "dataSource":
+                            {
+                              "member": { "__id": "NowReportingScreen/Properties[EventSliceCollection]" }
+                            },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Event Slice",
+                                "name": "EventSliceCollectionTemplate",
+                                "kind": "Details",
+                                "view": { "__id": ":ColumnsLayout" },
+                                "dataSource":
+                                {
+                                  "links":
+                                  [
+                                  ]
+                                },
+                                "childContentItems":
+                                [
+                                  {
+                                    "displayName": "Slice Number",
+                                    "name": "SliceNumber",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventSlice/Properties[SliceNumber]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Slice Start Time",
+                                    "name": "SliceStartTime",
+                                    "kind": "Value",
+                                    "view": { "__id": ":NoControl" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "NowReportingScreen/Properties[SliceStartTime]" }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "displayName": "Group1",
+                        "name": "Group1",
+                        "kind": "Group",
+                        "view": { "__id": ":RowsLayout" },
+                        "childContentItems":
+                        [
+                          {
+                            "displayName": "Event Scores",
+                            "name": "EventScores",
+                            "kind": "Collection",
+                            "view": { "__id": ":Table" },
+                            "dataSource":
+                            {
+                              "member": { "__id": "NowReportingScreen/Properties[EventScores]" }
+                            },
+                            "childContentItems":
+                            [
+                              {
+                                "displayName": "Event Score",
+                                "name": "EventScoresTemplate",
+                                "kind": "Details",
+                                "view": { "__id": ":TableRowLayout" },
+                                "dataSource":
+                                {
+                                  "links":
+                                  [
+                                  ]
+                                },
+                                "childContentItems":
+                                [
+                                  {
+                                    "displayName": "Screen Name",
+                                    "name": "ScreenName",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[ScreenName]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Score",
+                                    "name": "Score",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[Score]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Rank",
+                                    "name": "Rank",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[Rank]" }
+                                    }
+                                  },
+                                  {
+                                    "displayName": "Reported By",
+                                    "name": "CreatedBy",
+                                    "kind": "Value",
+                                    "view": { "__id": ":Text" },
+                                    "dataSource":
+                                    {
+                                      "member": { "__id": "EventScore/Properties[CreatedBy]" }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "displayName": "Add Event Score",
+                            "name": "AddEventScore",
+                            "kind": "Command",
+                            "view": { "__id": ":Button" },
+                            "propertySources":
+                            [
+                              {
+                                "property": { "__id": ":RootControl/Properties[Tap]" },
+                                "source":
+                                {
+                                  "target": { "__id": "!module/Methods[showAddEditEventScore]" },
+                                  ":@AssociatedCollection": { "collection": { "__id": "NowReportingScreen/Properties[EventScores]" } },
+                                  ":@CreateNewEntity":
+                                  {
+                                    "targetParameter": { "__id": "!module/Methods[showAddEditEventScore]/Parameters[EventScore]" }
+                                  }
+                                }
+                              },
+                              {
+                                "property": { "__id": ":RootCommand/Properties[Icon]" },
+                                "value": "msls-add"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "propertySources":
+                [
+                  {
+                    "property": { "__id": ":RootControl/Properties[BrowseOnly]" },
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "displayName": "Popups",
+                "name": "Popups",
+                "kind": "Group",
+                "view": { "__id": ":DialogPages" }
+              }
+            ]
+          },
+          "methods":
+          [
+            {
+              "id": "NowReportingScreen/Methods[showTab]",
+              "name": "showTab",
+              "parameters":
+              [
+                {
+                  "id": "NowReportingScreen/Methods[showTab]/Parameters[tabName]",
+                  "name": "tabName",
+                  "parameterType": { "__id": ":String" }
+                }
+              ]
+            },
+            {
+              "id": "NowReportingScreen/Methods[showDialog]",
+              "name": "showDialog",
+              "parameters":
+              [
+                {
+                  "id": "NowReportingScreen/Methods[showDialog]/Parameters[dialogName]",
+                  "name": "dialogName",
+                  "parameterType": { "__id": ":String" }
+                }
+              ]
+            },
+            {
+              "id": "NowReportingScreen/Methods[AddEventScore]",
+              "name": "AddEventScore"
+            }
+          ],
+          "properties":
+          [
+            {
+              "id": "NowReportingScreen/Properties[NowReporting]",
+              "name": "NowReporting",
+              "pageSize": 45,
+              "elementType": { "__id": "PvPInstance" },
+              "propertyType": { "__id": "CollectionView$PvPInstance" },
+              "query":
+              {
+                "id": "NowReportingScreen/Properties[NowReporting]/Query",
+                "name": "NowReportingQuery",
+                "elementType": { "__id": "PvPInstance" },
+                "returnType": { "__id": "PvPInstance*" },
+                "source":
+                {
+                  "member": { "__id": "ApplicationData/Members[NowReporting]" }
+                }
+              },
+              "source":
+              {
+                "target": { "__id": "NowReportingScreen/Properties[NowReporting]/Query" }
+              }
+            },
+            {
+              "id": "NowReportingScreen/Properties[EventSliceCollection]",
+              "name": "EventSliceCollection",
+              "pageSize": 45,
+              "elementType": { "__id": "EventSlice" },
+              "propertyType": { "__id": "CollectionView$EventSlice" },
+              "query":
+              {
+                "id": "NowReportingScreen/Properties[EventSliceCollection]/Query",
+                "name": "EventSliceCollectionQuery",
+                "elementType": { "__id": "EventSlice" },
+                "returnType": { "__id": "EventSlice*" },
+                "source":
+                {
+                  "links":
+                  [
+                    {
+                      "member": { "__id": "NowReportingScreen/Properties[NowReporting]" }
+                    },
+                    {
+                      "member": { "__id": "CollectionView$PvPInstance/Properties[selectedItem]" }
+                    },
+                    {
+                      "member": { "__id": "PvPInstance/Properties[EventSliceCollection]" }
+                    }
+                  ]
+                },
+                "sortCriteria":
+                [
+                  {
+                    "member": { "__id": "EventSlice/Properties[SliceNumber]" }
+                  }
+                ]
+              },
+              "source":
+              {
+                "target": { "__id": "NowReportingScreen/Properties[EventSliceCollection]/Query" }
+              }
+            },
+            {
+              "id": "NowReportingScreen/Properties[EventScores]",
+              "name": "EventScores",
+              "pageSize": 45,
+              "elementType": { "__id": "EventScore" },
+              "propertyType": { "__id": "CollectionView$EventScore" },
+              "query":
+              {
+                "id": "NowReportingScreen/Properties[EventScores]/Query",
+                "name": "EventScoresQuery",
+                "elementType": { "__id": "EventScore" },
+                "returnType": { "__id": "EventScore*" },
+                "source":
+                {
+                  "links":
+                  [
+                    {
+                      "member": { "__id": "NowReportingScreen/Properties[EventSliceCollection]" }
+                    },
+                    {
+                      "member": { "__id": "CollectionView$EventSlice/Properties[selectedItem]" }
+                    },
+                    {
+                      "member": { "__id": "EventSlice/Properties[EventScores]" }
+                    }
+                  ]
+                },
+                "sortCriteria":
+                [
+                  {
+                    "member": { "__id": "EventScore/Properties[Score]" }
+                  }
+                ]
+              },
+              "source":
+              {
+                "target": { "__id": "NowReportingScreen/Properties[EventScores]/Query" }
+              }
+            },
+            {
+              "id": "NowReportingScreen/Properties[SliceStartTime]",
+              "name": "SliceStartTime",
+              "elementType": { "__id": ":TimeSpan" },
+              "propertyType": { "__id": ":TimeSpan" },
+              ":@Required": { }
+            }
+          ]
         }
       ],
       "methods":
       [
+        {
+          "id": "!module/Methods[showAddEditEventScore]",
+          "name": "showAddEditEventScore",
+          ":@ShowScreenMethod": { "targetScreen": { "__id": "AddEditEventScore" } },
+          "parameters":
+          [
+            {
+              "id": "!module/Methods[showAddEditEventScore]/Parameters[EventScore]",
+              "name": "EventScore",
+              "parameterType": { "__id": "EventScore" }
+            }
+          ]
+        },
         {
           "id": "!module/Methods[showAddEditPvPEvent]",
           "name": "showAddEditPvPEvent",
@@ -3935,11 +4745,6 @@
           ]
         },
         {
-          "id": "!module/Methods[showBrowseEvents]",
-          "name": "showBrowseEvents",
-          ":@ShowScreenMethod": { "targetScreen": { "__id": "BrowseEvents" } }
-        },
-        {
           "id": "!module/Methods[showAddEditPvPInstance]",
           "name": "showAddEditPvPInstance",
           ":@ShowScreenMethod": { "targetScreen": { "__id": "AddEditPvPInstance" } },
@@ -3951,10 +4756,25 @@
               "parameterType": { "__id": "PvPInstance" }
             }
           ]
+        },
+        {
+          "id": "!module/Methods[showBrowseEvents]",
+          "name": "showBrowseEvents",
+          ":@ShowScreenMethod": { "targetScreen": { "__id": "BrowseEvents" } }
+        },
+        {
+          "id": "!module/Methods[showNowReportingScreen]",
+          "name": "showNowReportingScreen",
+          ":@ShowScreenMethod": { "targetScreen": { "__id": "NowReportingScreen" } }
         }
       ],
       "navigationItems":
       [
+        {
+          "id": "!module/NavigationItems[link1]",
+          "name": "link1",
+          "method": { "__id": "!module/Methods[showNowReportingScreen]" }
+        },
         {
           "id": "!module/NavigationItems[link]",
           "name": "link",

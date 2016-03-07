@@ -79,6 +79,7 @@
     <Reference Include="System.Data.Entity">
       <ProjectCritical>True</ProjectCritical>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization">
       <ProjectCritical>True</ProjectCritical>
     </Reference>
@@ -192,6 +193,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateAccount.aspx.cs">
+      <DependentUpon>CreateAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateAccount.aspx.designer.cs">
+      <DependentUpon>CreateAccount.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataSources\ApplicationData\PvPInstance.lsml.cs">
       <DependentUpon>PvPInstances.lsml</DependentUpon>
     </Compile>
@@ -204,12 +212,20 @@
     </LightSwitchModel>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <_ServerFile Include="LogIn.aspx" />
+    <_ServerFile Include="LogOut.aspx" />
+    <Content Include="CreateAccount.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <LightSwitchModel Include="Properties\DataSources\ApplicationData.lsml" />
     <LightSwitchModel Include="DataSources\ApplicationData\PvPEvents.lsml" />
     <LightSwitchModel Include="DataSources\ApplicationData\PvPInstances.lsml" />
     <LightSwitchModel Include="DataSources\ApplicationData\EventSliceSet.lsml" />
     <LightSwitchModel Include="DataSources\ApplicationData\EventScores.lsml" />
+    <LightSwitchModel Include="DataSources\ApplicationData\NowReporting.lsml">
+      <DependentUpon>PvPInstances.lsml</DependentUpon>
+    </LightSwitchModel>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

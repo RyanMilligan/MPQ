@@ -246,7 +246,7 @@
       EntityType="EventSlice">
       <AssociationEnd.Attributes>
         <DeleteRule
-          Action="Restrict" />
+          Action="Cascade" />
       </AssociationEnd.Attributes>
     </AssociationEnd>
   </Association>

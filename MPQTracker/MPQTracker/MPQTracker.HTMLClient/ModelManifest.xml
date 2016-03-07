@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 <ModelDocumentManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Documents>
-    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Properties\Client.lsml" Checksum="17ED5B3085DF245F2CBA01FD57214FDB2EF23769E7CBA57C537954061C202C06" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Properties\Client.lsml" Checksum="FD102A6D142CC041E9D993CEA43780C43CB589B9D496F316E908E695B8FD04C9" />
     <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Properties\Proxies.lsml" Checksum="2155BE73009964319AE694218DA52C55EC3AAEE00B5491B38C8E2E6E2CDB6E7D" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\ActiveEvents.lsml" Checksum="B69C80DC978E1A4ED34040249719986C0B0E4C31FCFF0BCC93C89536C7D52A8A" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\AddEditEventScore.lsml" Checksum="7989A0E32609709AA355B5CA61AB50968BCD3FD887163FAD6000B75742DA9D95" />
     <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\AddEditPvPEvent.lsml" Checksum="3782CF3E817C8351C38E5AC2E6D835D76ACC55773E0B8DFFD641670D204262FC" />
-    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\Browse.lsml" Checksum="46D4AAE5BDFA1D0BD75BCD19431A6CD8CC7C84158009152CD2BFF45F5D8A751A" />
     <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\AddEditPvPInstance.lsml" Checksum="E7158FC2F49CEBCB7F268C9BAC07F102055DCADE81252BEA76AF167984CCF512" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\BrowseEvents.lsml" Checksum="DC0FB85C551A70454C97EB10204C67C138955ABB4DFC4623C48105E20D450885" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.HTMLClient\Screens\NowReportingScreen.lsml" Checksum="C12CB58970E7933FFA9BFE3FEDFC42FBF7361F12B434C88EDC1B828D2E5068A4" />
   </Documents>
 </ModelDocumentManifest>

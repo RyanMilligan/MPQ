@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ModelDocumentManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Documents>
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.DesktopClient\Properties\ApplicationData\PvPInstances.lsml" Checksum="B506B83ABC715CC43DDA1C32C41160661F429ADB62DBC92F3BB0B894A80226CF" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.DesktopClient\Properties\Client.lsml" Checksum="E8E991A7092C3E3CC3A41A3E4333CCB86D83D049BA47AEB6574F8668FBF61D52" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.DesktopClient\Properties\Proxies.lsml" Checksum="2F1FD23195E8C4556ACDA020F1870B88D6A3C5A2DB1F280C8C3665944DB5E764" />
+  </Documents>
+</ModelDocumentManifest>

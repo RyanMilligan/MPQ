@@ -37,6 +37,13 @@ namespace LightSwitchApplication.Implementation
         }
     
     #region Queries
+        public global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.PvPInstance> NowReporting()
+        {
+            global::System.Linq.IQueryable<global::LightSwitchApplication.Implementation.PvPInstance> query;
+            query = this.GetQuery<global::LightSwitchApplication.Implementation.PvPInstance>("PvPInstances");
+            return query;
+        }
+    
     #endregion
 
     #region Protected Methods

@@ -25,6 +25,7 @@
     <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="Score" Type="int" Nullable="false" />
     <Property Name="Rank" Type="int" Nullable="false" />
+    <Property Name="ScreenName" Type="nvarchar" MaxLength="255" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
     <Property Name="Created" Type="datetimeoffset" />
     <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
@@ -63,6 +64,7 @@
     </Key>
     <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="Duration" Type="datetimeoffset" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" />
     <Property Name="Created" Type="datetimeoffset" />
     <Property Name="ModifiedBy" Type="nvarchar" MaxLength="255" />
@@ -72,7 +74,7 @@
   </EntityType>
   <Association Name="EventScore_EventSlice">
     <End Role="EventSlice" Type="ApplicationDataStore.EventSlice" Multiplicity="1">
-      <OnDeleteAnnotation Action="Restrict" xmlns="http://schemas.microsoft.com/LightSwitch/2013/edm/annotations" />
+      <OnDelete Action="Cascade" />
     </End>
     <End Role="EventScore" Type="ApplicationDataStore.EventScore" Multiplicity="*" />
     <ReferentialConstraint>
@@ -86,7 +88,7 @@
   </Association>
   <Association Name="PvPInstance_PvPEvent">
     <End Role="PvPEvent" Type="ApplicationDataStore.PvPEvent" Multiplicity="1">
-      <OnDeleteAnnotation Action="Restrict" xmlns="http://schemas.microsoft.com/LightSwitch/2013/edm/annotations" />
+      <OnDelete Action="Cascade" />
     </End>
     <End Role="PvPInstance" Type="ApplicationDataStore.PvPInstance" Multiplicity="*" />
     <ReferentialConstraint>
@@ -100,7 +102,7 @@
   </Association>
   <Association Name="EventSlice_PvPInstance">
     <End Role="PvPInstance" Type="ApplicationDataStore.PvPInstance" Multiplicity="1">
-      <OnDeleteAnnotation Action="Restrict" xmlns="http://schemas.microsoft.com/LightSwitch/2013/edm/annotations" />
+      <OnDelete Action="Cascade" />
     </End>
     <End Role="EventSlice" Type="ApplicationDataStore.EventSlice" Multiplicity="*" />
     <ReferentialConstraint>

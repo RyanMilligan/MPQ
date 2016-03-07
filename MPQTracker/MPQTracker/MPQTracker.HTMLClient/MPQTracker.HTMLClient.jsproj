@@ -72,6 +72,9 @@
     <Content Include="Screens\BrowseEvents.lsml.js">
       <DependentUpon>BrowseEvents.lsml</DependentUpon>
     </Content>
+    <Content Include="Screens\NowReportingScreen.lsml.js">
+      <DependentUpon>NowReportingScreen.lsml</DependentUpon>
+    </Content>
     <Content Include="Scripts\datajs-1.1.3.js" />
     <Content Include="Scripts\datajs-1.1.3.min.js" />
     <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
@@ -101,9 +104,11 @@
       <ProjectCritical>true</ProjectCritical>
     </LightSwitchModel>
     <LightSwitchModel Include="Properties\Proxies.lsml" />
+    <LightSwitchModel Include="Screens\AddEditEventScore.lsml" />
     <LightSwitchModel Include="Screens\AddEditPvPEvent.lsml" />
     <LightSwitchModel Include="Screens\AddEditPvPInstance.lsml" />
     <LightSwitchModel Include="Screens\BrowseEvents.lsml" />
+    <LightSwitchModel Include="Screens\NowReportingScreen.lsml" />
   </ItemGroup>
   <ItemGroup>
     <_ClientBuildFile Include="GeneratedArtifacts\model.json">

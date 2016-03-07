@@ -155,6 +155,30 @@ namespace LightSwitchApplication
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.LightSwitch.BuildTasks.CodeGen", "14.0.0.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string ScreenName
+        {
+            get
+            {
+                return global::LightSwitchApplication.EventScore.DetailsClass.GetValue(this, global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties.ScreenName);
+            }
+            set
+            {
+                global::LightSwitchApplication.EventScore.DetailsClass.SetValue(this, global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties.ScreenName, value);
+            }
+        }
+        
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ScreenName_IsReadOnly(ref bool result);
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ScreenName_Validate(global::Microsoft.LightSwitch.EntityValidationResultsBuilder results);
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void ScreenName_Changed();
+
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.LightSwitch.BuildTasks.CodeGen", "14.0.0.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string CreatedBy
         {
             get
@@ -401,6 +425,14 @@ namespace LightSwitchApplication
                     }
                 }
                 
+                public global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string> ScreenName
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties.ScreenName) as global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string>;
+                    }
+                }
+                
                 public global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string> CreatedBy
                 {
                     get
@@ -458,6 +490,7 @@ namespace LightSwitchApplication
                 new int Id { get; set; }
                 new int Score { get; set; }
                 new int Rank { get; set; }
+                new string ScreenName { get; set; }
                 new string CreatedBy { get; }
                 new global::System.Nullable<global::System.DateTimeOffset> Created { get; }
                 new string ModifiedBy { get; }
@@ -582,6 +615,43 @@ namespace LightSwitchApplication
                 private static void _Rank_OnValueChanged(global::LightSwitchApplication.EventScore e)
                 {
                     e.Rank_Changed();
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string>.Entry
+                    ScreenName = new global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string>.Entry(
+                        "ScreenName",
+                        global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties._ScreenName_Stub,
+                        global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties._ScreenName_ComputeIsReadOnly,
+                        global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties._ScreenName_Validate,
+                        global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties._ScreenName_GetImplementationValue,
+                        global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties._ScreenName_SetImplementationValue,
+                        global::LightSwitchApplication.EventScore.DetailsClass.PropertySetProperties._ScreenName_OnValueChanged);
+                private static void _ScreenName_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.EventScore.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string>.Data> c, global::LightSwitchApplication.EventScore.DetailsClass d, object sf)
+                {
+                    c(d, ref d._ScreenName, sf);
+                }
+                private static bool _ScreenName_ComputeIsReadOnly(global::LightSwitchApplication.EventScore e)
+                {
+                    bool result = false;
+                    e.ScreenName_IsReadOnly(ref result);
+                    return result;
+                }
+                private static void _ScreenName_Validate(global::LightSwitchApplication.EventScore e, global::Microsoft.LightSwitch.EntityValidationResultsBuilder r)
+                {
+                    e.ScreenName_Validate(r);
+                }
+                private static string _ScreenName_GetImplementationValue(global::LightSwitchApplication.EventScore.DetailsClass d)
+                {
+                    return d.ImplementationEntity.ScreenName;
+                }
+                private static void _ScreenName_SetImplementationValue(global::LightSwitchApplication.EventScore.DetailsClass d, string v)
+                {
+                    d.ImplementationEntity.ScreenName = v;
+                }
+                private static void _ScreenName_OnValueChanged(global::LightSwitchApplication.EventScore e)
+                {
+                    e.ScreenName_Changed();
                 }
     
                 [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
@@ -810,6 +880,9 @@ namespace LightSwitchApplication
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, int>.Data _Rank;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string>.Data _ScreenName;
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.EventScore, global::LightSwitchApplication.EventScore.DetailsClass, string>.Data _CreatedBy;

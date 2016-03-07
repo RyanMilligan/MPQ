@@ -8,6 +8,28 @@
         $toODataString = msls._toODataString,
         $defineShowScreen = msls._defineShowScreen;
 
+    function AddEditEventScore(parameters, dataWorkspace) {
+        /// <summary>
+        /// Represents the AddEditEventScore screen.
+        /// </summary>
+        /// <param name="parameters" type="Array">
+        /// An array of screen parameter values.
+        /// </param>
+        /// <param name="dataWorkspace" type="msls.application.DataWorkspace" optional="true">
+        /// An existing data workspace for this screen to use. By default, a new data workspace is created.
+        /// </param>
+        /// <field name="EventScore" type="msls.application.EventScore">
+        /// Gets or sets the eventScore for this screen.
+        /// </field>
+        /// <field name="details" type="msls.application.AddEditEventScore.Details">
+        /// Gets the details for this screen.
+        /// </field>
+        if (!dataWorkspace) {
+            dataWorkspace = new lightSwitchApplication.DataWorkspace();
+        }
+        $Screen.call(this, dataWorkspace, "AddEditEventScore", parameters);
+    }
+
     function AddEditPvPEvent(parameters, dataWorkspace) {
         /// <summary>
         /// Represents the AddEditPvPEvent screen.
@@ -31,6 +53,28 @@
             dataWorkspace = new lightSwitchApplication.DataWorkspace();
         }
         $Screen.call(this, dataWorkspace, "AddEditPvPEvent", parameters);
+    }
+
+    function AddEditPvPInstance(parameters, dataWorkspace) {
+        /// <summary>
+        /// Represents the AddEditPvPInstance screen.
+        /// </summary>
+        /// <param name="parameters" type="Array">
+        /// An array of screen parameter values.
+        /// </param>
+        /// <param name="dataWorkspace" type="msls.application.DataWorkspace" optional="true">
+        /// An existing data workspace for this screen to use. By default, a new data workspace is created.
+        /// </param>
+        /// <field name="PvPInstance" type="msls.application.PvPInstance">
+        /// Gets or sets the pvPInstance for this screen.
+        /// </field>
+        /// <field name="details" type="msls.application.AddEditPvPInstance.Details">
+        /// Gets the details for this screen.
+        /// </field>
+        if (!dataWorkspace) {
+            dataWorkspace = new lightSwitchApplication.DataWorkspace();
+        }
+        $Screen.call(this, dataWorkspace, "AddEditPvPInstance", parameters);
     }
 
     function BrowseEvents(parameters, dataWorkspace) {
@@ -64,9 +108,9 @@
         $Screen.call(this, dataWorkspace, "BrowseEvents", parameters);
     }
 
-    function AddEditPvPInstance(parameters, dataWorkspace) {
+    function NowReportingScreen(parameters, dataWorkspace) {
         /// <summary>
-        /// Represents the AddEditPvPInstance screen.
+        /// Represents the NowReportingScreen screen.
         /// </summary>
         /// <param name="parameters" type="Array">
         /// An array of screen parameter values.
@@ -74,19 +118,33 @@
         /// <param name="dataWorkspace" type="msls.application.DataWorkspace" optional="true">
         /// An existing data workspace for this screen to use. By default, a new data workspace is created.
         /// </param>
-        /// <field name="PvPInstance" type="msls.application.PvPInstance">
-        /// Gets or sets the pvPInstance for this screen.
+        /// <field name="NowReporting" type="msls.VisualCollection" elementType="msls.application.PvPInstance">
+        /// Gets the nowReporting for this screen.
         /// </field>
-        /// <field name="details" type="msls.application.AddEditPvPInstance.Details">
+        /// <field name="EventSliceCollection" type="msls.VisualCollection" elementType="msls.application.EventSlice">
+        /// Gets the eventSliceCollection for this screen.
+        /// </field>
+        /// <field name="EventScores" type="msls.VisualCollection" elementType="msls.application.EventScore">
+        /// Gets the eventScores for this screen.
+        /// </field>
+        /// <field name="SliceStartTime" type="Object">
+        /// Gets or sets the sliceStartTime for this screen.
+        /// </field>
+        /// <field name="details" type="msls.application.NowReportingScreen.Details">
         /// Gets the details for this screen.
         /// </field>
         if (!dataWorkspace) {
             dataWorkspace = new lightSwitchApplication.DataWorkspace();
         }
-        $Screen.call(this, dataWorkspace, "AddEditPvPInstance", parameters);
+        $Screen.call(this, dataWorkspace, "NowReportingScreen", parameters);
     }
 
     msls._addToNamespace("msls.application", {
+
+        AddEditEventScore: $defineScreen(AddEditEventScore, [
+            { name: "EventScore", kind: "local", type: lightSwitchApplication.EventScore }
+        ], [
+        ]),
 
         AddEditPvPEvent: $defineScreen(AddEditPvPEvent, [
             { name: "PvPEvent", kind: "local", type: lightSwitchApplication.PvPEvent },
@@ -102,6 +160,11 @@
                     return this.expand("PvPEvent");
                 }
             }
+        ], [
+        ]),
+
+        AddEditPvPInstance: $defineScreen(AddEditPvPInstance, [
+            { name: "PvPInstance", kind: "local", type: lightSwitchApplication.PvPInstance }
         ], [
         ]),
 
@@ -133,7 +196,7 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("PvPInstance");
+                    return this;
                 }
             },
             {
@@ -145,17 +208,60 @@
                     return null;
                 },
                 appendQuery: function () {
-                    return this.expand("EventSlice");
+                    return this.orderBy("Rank");
                 }
             }
         ], [
-            { name: "AddPvpInstance" }
+            { name: "deleteSelectedEvent" }
         ]),
 
-        AddEditPvPInstance: $defineScreen(AddEditPvPInstance, [
-            { name: "PvPInstance", kind: "local", type: lightSwitchApplication.PvPInstance }
+        NowReportingScreen: $defineScreen(NowReportingScreen, [
+            {
+                name: "NowReporting", kind: "collection", elementType: lightSwitchApplication.PvPInstance,
+                createQuery: function () {
+                    return this.dataWorkspace.ApplicationData.NowReporting().expand("PvPEvent");
+                }
+            },
+            {
+                name: "EventSliceCollection", kind: "collection", elementType: lightSwitchApplication.EventSlice,
+                getNavigationProperty: function () {
+                    if (this.owner.NowReporting.selectedItem) {
+                        return this.owner.NowReporting.selectedItem.details.properties.EventSliceCollection;
+                    }
+                    return null;
+                },
+                appendQuery: function () {
+                    return this.orderBy("SliceNumber");
+                }
+            },
+            {
+                name: "EventScores", kind: "collection", elementType: lightSwitchApplication.EventScore,
+                getNavigationProperty: function () {
+                    if (this.owner.EventSliceCollection.selectedItem) {
+                        return this.owner.EventSliceCollection.selectedItem.details.properties.EventScores;
+                    }
+                    return null;
+                },
+                appendQuery: function () {
+                    return this.orderBy("Score");
+                }
+            },
+            { name: "SliceStartTime", kind: "local", type: Object }
         ], [
+            { name: "AddEventScore" }
         ]),
+
+        showAddEditEventScore: $defineShowScreen(function showAddEditEventScore(EventScore, options) {
+            /// <summary>
+            /// Asynchronously navigates forward to the AddEditEventScore screen.
+            /// </summary>
+            /// <param name="options" optional="true">
+            /// An object that provides one or more of the following options:<br/>- beforeShown: a function that is called after boundary behavior has been applied but before the screen is shown.<br/>+ Signature: beforeShown(screen)<br/>- afterClosed: a function that is called after boundary behavior has been applied and the screen has been closed.<br/>+ Signature: afterClosed(screen, action : msls.NavigateBackAction)
+            /// </param>
+            /// <returns type="WinJS.Promise" />
+            var parameters = Array.prototype.slice.call(arguments, 0, 1);
+            return lightSwitchApplication.showScreen("AddEditEventScore", parameters, options);
+        }),
 
         showAddEditPvPEvent: $defineShowScreen(function showAddEditPvPEvent(PvPEvent, options) {
             /// <summary>
@@ -167,6 +273,18 @@
             /// <returns type="WinJS.Promise" />
             var parameters = Array.prototype.slice.call(arguments, 0, 1);
             return lightSwitchApplication.showScreen("AddEditPvPEvent", parameters, options);
+        }),
+
+        showAddEditPvPInstance: $defineShowScreen(function showAddEditPvPInstance(PvPInstance, options) {
+            /// <summary>
+            /// Asynchronously navigates forward to the AddEditPvPInstance screen.
+            /// </summary>
+            /// <param name="options" optional="true">
+            /// An object that provides one or more of the following options:<br/>- beforeShown: a function that is called after boundary behavior has been applied but before the screen is shown.<br/>+ Signature: beforeShown(screen)<br/>- afterClosed: a function that is called after boundary behavior has been applied and the screen has been closed.<br/>+ Signature: afterClosed(screen, action : msls.NavigateBackAction)
+            /// </param>
+            /// <returns type="WinJS.Promise" />
+            var parameters = Array.prototype.slice.call(arguments, 0, 1);
+            return lightSwitchApplication.showScreen("AddEditPvPInstance", parameters, options);
         }),
 
         showBrowseEvents: $defineShowScreen(function showBrowseEvents(options) {
@@ -181,16 +299,16 @@
             return lightSwitchApplication.showScreen("BrowseEvents", parameters, options);
         }),
 
-        showAddEditPvPInstance: $defineShowScreen(function showAddEditPvPInstance(PvPInstance, options) {
+        showNowReportingScreen: $defineShowScreen(function showNowReportingScreen(options) {
             /// <summary>
-            /// Asynchronously navigates forward to the AddEditPvPInstance screen.
+            /// Asynchronously navigates forward to the NowReportingScreen screen.
             /// </summary>
             /// <param name="options" optional="true">
             /// An object that provides one or more of the following options:<br/>- beforeShown: a function that is called after boundary behavior has been applied but before the screen is shown.<br/>+ Signature: beforeShown(screen)<br/>- afterClosed: a function that is called after boundary behavior has been applied and the screen has been closed.<br/>+ Signature: afterClosed(screen, action : msls.NavigateBackAction)
             /// </param>
             /// <returns type="WinJS.Promise" />
-            var parameters = Array.prototype.slice.call(arguments, 0, 1);
-            return lightSwitchApplication.showScreen("AddEditPvPInstance", parameters, options);
+            var parameters = Array.prototype.slice.call(arguments, 0, 0);
+            return lightSwitchApplication.showScreen("NowReportingScreen", parameters, options);
         })
 
     });

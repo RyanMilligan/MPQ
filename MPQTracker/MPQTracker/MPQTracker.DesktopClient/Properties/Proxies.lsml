@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application
+  Name="LightSwitchApplication.MPQTracker.DesktopClient" xmlns="http://schemas.microsoft.com/LightSwitch/2010/xaml/model">
+  <Application.Attributes>
+    <Partial />
+  </Application.Attributes>
+  <EntityType>
+    <EntityType.Attributes>
+      <Proxy
+        Target="ServiceInterface:EventScore" />
+    </EntityType.Attributes>
+  </EntityType>
+  <EntityType>
+    <EntityType.Attributes>
+      <Proxy
+        Target="ServiceInterface:EventSlice" />
+    </EntityType.Attributes>
+  </EntityType>
+  <EntityType>
+    <EntityType.Attributes>
+      <Proxy
+        Target="ServiceInterface:PvPEvent" />
+    </EntityType.Attributes>
+  </EntityType>
+  <EntityContainer>
+    <EntityContainer.Attributes>
+      <Proxy
+        Target="ServiceInterface:ApplicationData" />
+    </EntityContainer.Attributes>
+  </EntityContainer>
+  <Association>
+    <Association.Attributes>
+      <Proxy
+        Target="ServiceInterface:EventScore_EventSlice" />
+    </Association.Attributes>
+  </Association>
+  <Association>
+    <Association.Attributes>
+      <Proxy
+        Target="ServiceInterface:PvPInstance_PvPEvent" />
+    </Association.Attributes>
+  </Association>
+  <Association>
+    <Association.Attributes>
+      <Proxy
+        Target="ServiceInterface:EventSlice_PvPInstance" />
+    </Association.Attributes>
+  </Association>
+</Application>

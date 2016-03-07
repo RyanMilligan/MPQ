@@ -8,6 +8,7 @@
     <Property Name="Score" Type="Edm.Int32" Nullable="false" />
     <Property Name="Rank" Type="Edm.Int32" Nullable="false" />
     <Property Name="EventScore_EventSlice" Type="Edm.Int32" Nullable="false" />
+    <Property Name="ScreenName" Type="Edm.String" MaxLength="255" />
     <Property Name="CreatedBy" Type="Edm.String" MaxLength="255" />
     <Property Name="Created" Type="Edm.DateTimeOffset" />
     <Property Name="ModifiedBy" Type="Edm.String" MaxLength="255" />
@@ -50,6 +51,7 @@
     <Property Name="Id" Type="Edm.Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PvPInstance_PvPEvent" Type="Edm.Int32" Nullable="false" />
     <Property Name="StartTime" Type="Edm.DateTime" Nullable="false" />
+    <Property Name="Duration" Type="Edm.DateTimeOffset" Nullable="false" />
     <Property Name="CreatedBy" Type="Edm.String" MaxLength="255" />
     <Property Name="Created" Type="Edm.DateTimeOffset" />
     <Property Name="ModifiedBy" Type="Edm.String" MaxLength="255" />
@@ -59,7 +61,9 @@
     <NavigationProperty Name="EventSliceCollection" Relationship="LightSwitchApplication.EventSlice_PvPInstance" ToRole="EventSlice" FromRole="PvPInstance" />
   </EntityType>
   <Association Name="EventScore_EventSlice">
-    <End Role="EventSlice" Type="LightSwitchApplication.EventSlice" Multiplicity="1" />
+    <End Role="EventSlice" Type="LightSwitchApplication.EventSlice" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="EventScore" Type="LightSwitchApplication.EventScore" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="EventSlice">
@@ -71,7 +75,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="PvPInstance_PvPEvent">
-    <End Role="PvPEvent" Type="LightSwitchApplication.PvPEvent" Multiplicity="1" />
+    <End Role="PvPEvent" Type="LightSwitchApplication.PvPEvent" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="PvPInstance" Type="LightSwitchApplication.PvPInstance" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PvPEvent">
@@ -83,7 +89,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="EventSlice_PvPInstance">
-    <End Role="PvPInstance" Type="LightSwitchApplication.PvPInstance" Multiplicity="1" />
+    <End Role="PvPInstance" Type="LightSwitchApplication.PvPInstance" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="EventSlice" Type="LightSwitchApplication.EventSlice" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PvPInstance">

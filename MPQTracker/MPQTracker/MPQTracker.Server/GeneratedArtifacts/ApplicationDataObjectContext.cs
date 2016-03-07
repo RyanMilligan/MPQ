@@ -315,6 +315,30 @@ namespace LightSwitchApplication.Implementation
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
+        public global::System.String ScreenName
+        {
+            get
+            {
+                return _ScreenName;
+            }
+            set
+            {
+                OnScreenNameChanging(value);
+                ReportPropertyChanging("ScreenName");
+                _ScreenName = value;
+                ReportPropertyChanged("ScreenName");
+                OnScreenNameChanged();
+            }
+        }
+        private global::System.String _ScreenName;
+        partial void OnScreenNameChanging(global::System.String value);
+        partial void OnScreenNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
         public global::System.String CreatedBy
         {
             get
@@ -1019,13 +1043,15 @@ namespace LightSwitchApplication.Implementation
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="pvPInstance_PvPEvent">Initial value of the PvPInstance_PvPEvent property.</param>
         /// <param name="startTime">Initial value of the StartTime property.</param>
+        /// <param name="duration">Initial value of the Duration property.</param>
         /// <param name="rowVersion">Initial value of the RowVersion property.</param>
-        public static PvPInstance CreatePvPInstance(global::System.Int32 id, global::System.Int32 pvPInstance_PvPEvent, global::System.DateTime startTime, global::System.Byte[] rowVersion)
+        public static PvPInstance CreatePvPInstance(global::System.Int32 id, global::System.Int32 pvPInstance_PvPEvent, global::System.DateTime startTime, global::System.DateTimeOffset duration, global::System.Byte[] rowVersion)
         {
             PvPInstance pvPInstance = new PvPInstance();
             pvPInstance.Id = id;
             pvPInstance.PvPInstance_PvPEvent = pvPInstance_PvPEvent;
             pvPInstance.StartTime = startTime;
+            pvPInstance.Duration = duration;
             pvPInstance.RowVersion = rowVersion;
             return pvPInstance;
         }
@@ -1108,6 +1134,30 @@ namespace LightSwitchApplication.Implementation
         private global::System.DateTime _StartTime;
         partial void OnStartTimeChanging(global::System.DateTime value);
         partial void OnStartTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTimeOffset Duration
+        {
+            get
+            {
+                return _Duration;
+            }
+            set
+            {
+                OnDurationChanging(value);
+                ReportPropertyChanging("Duration");
+                _Duration = value;
+                ReportPropertyChanged("Duration");
+                OnDurationChanged();
+            }
+        }
+        private global::System.DateTimeOffset _Duration;
+        partial void OnDurationChanging(global::System.DateTimeOffset value);
+        partial void OnDurationChanged();
     
         /// <summary>
         /// No Metadata Documentation available.

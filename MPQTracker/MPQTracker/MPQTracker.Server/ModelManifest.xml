@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <ModelDocumentManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Documents>
-    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\EventScores.lsml" Checksum="4FC4C22AC677D10BB85919D47712383B9012E9D1F8D813D773BC777B83C6C0BB" />
-    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\EventSliceSet.lsml" Checksum="20E1A121CD2DCFFC0C39B4881E3627BA876F46FB87863C8F592AFAFF9369619C" />
-    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\PvPEvents.lsml" Checksum="5BB035C887A7773A2DCF06E5E379927F97BA3D065910C573488E977586F2AEA6" />
-    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\PvPInstances.lsml" Checksum="7E52E07581C0DB069EDD4835D118C4B096B56AC00F736E4E1999030365F31E63" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\EventScores.lsml" Checksum="42C32C120756DB41D848568CF36F20118BC98ED230A00415B04A9852F9D21D36" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\EventSliceSet.lsml" Checksum="1F66493AF1500EBE5B25325EC57D062ED5ECB4BBD7B6358609CB90DE232B0C39" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\PvPEvents.lsml" Checksum="9A5F73A59FC42476CE4CF9CB356F830FF19531BCF0CE1BBACED305208A23B955" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\PvPInstances.lsml" Checksum="C6E4239C89EA014EA15F9CBF0219123B09649421B210274618003E409C18FFC0" />
     <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\Properties\DataSources\ApplicationData.lsml" Checksum="E6FEEAC3B4A850AAC5F0029259A0B9F8C1BD45F2950D17BD8D6664B9422E6AD6" />
     <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\Properties\Service.lsml" Checksum="679C78F29C5AF23E9956A773B0E46DF90F7B86CADA0B79571E5896A1C79F5B70" />
+    <Document FullPath="F:\GitHub\MPQ\MPQTracker\MPQTracker\MPQTracker.Server\DataSources\ApplicationData\NowReporting.lsml" Checksum="CCF894A9D77460A9170216A19BF8147FB577AC32DE3FDD12AE7AA807AA20406F" />
   </Documents>
 </ModelDocumentManifest>

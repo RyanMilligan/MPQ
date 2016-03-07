@@ -20,17 +20,17 @@
     <BaseIntermediateOutputPath>bin</BaseIntermediateOutputPath>
     <ApplicationClientType>Browser</ApplicationClientType>
     <ApplicationServerType>Azure</ApplicationServerType>
-    <AuthenticationType>None</AuthenticationType>
+    <AuthenticationType>Forms</AuthenticationType>
     <ApplicationName>MPQTracker</ApplicationName>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <AssemblyVersion>1.0.21.0</AssemblyVersion>
     <ServiceDefinitionFile>ServiceDefinition.csdef</ServiceDefinitionFile>
     <ServiceConfigurationFile>ServiceConfiguration.cscfg</ServiceConfigurationFile>
     <SqlExpressInstanceName>(LocalDB)\MSSQLLocalDB</SqlExpressInstanceName>
-    <AdministratorFullName />
-    <AdministratorUserName />
+    <AdministratorFullName>Ryan Milligan</AdministratorFullName>
+    <AdministratorUserName>Ceiled</AdministratorUserName>
     <AllowUntrustedCertificate>False</AllowUntrustedCertificate>
     <DeployDatabase>True</DeployDatabase>
-    <AddAdministrator>True</AddAdministrator>
+    <AddAdministrator>False</AddAdministrator>
     <BootstrapperComponentsUrl />
     <DefaultInstallLocation>MPQTracker</DefaultInstallLocation>
     <DeploySchema>True</DeploySchema>
@@ -55,6 +55,7 @@
     <SharePointServerToServerCertificatePath />
     <SharePointServerToServerCertificateIssuerId />
     <RequireSecureConnection>False</RequireSecureConnection>
+    <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug</OutputPath>
@@ -127,6 +128,12 @@
     </_BuildFile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="MPQTracker.DesktopClient\MPQTracker.DesktopClient.csproj">
+      <Name>MPQTracker.DesktopClient</Name>
+      <Project>{9c94299c-47cf-4b72-9039-ffd7aefc536d}</Project>
+      <Private>True</Private>
+      <Type>Client</Type>
+    </ProjectReference>
     <ProjectReference Include="MPQTracker.HTMLClient\MPQTracker.HTMLClient.jsproj">
       <Name>MPQTracker.HTMLClient</Name>
       <Project>{19c51b88-a7cf-416f-a147-0a6236172107}</Project>
@@ -141,10 +148,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <LightSwitchExtension Include="Extensions\Microsoft.LightSwitch.Cosmopolitan.lspkg">
+      <ExtensionId>Microsoft.LightSwitch.Cosmopolitan</ExtensionId>
+      <Client>MICROSOFT.LIGHTSWITCH.COSMOPOLITAN.CLIENT</Client>
+    </LightSwitchExtension>
     <LightSwitchExtension Include="Extensions\Microsoft.LightSwitch.Extensions.lspkg">
       <ExtensionId>Microsoft.LightSwitch.Extensions</ExtensionId>
+      <Client>MICROSOFT.LIGHTSWITCH.EXTENSIONS.CLIENT;MICROSOFT.LIGHTSWITCH.EXTENSIONS.DESIGN.CLIENT</Client>
       <Server>MICROSOFT.LIGHTSWITCH.EXTENSIONS.SERVER</Server>
     </LightSwitchExtension>
+  </ItemGroup>
+  <ItemGroup Condition="'$(AuthenticationType)' == 'Forms'">
+    <_BuildFile Include="MPQTracker.Server\LogIn.aspx">
+      <SubFolder>
+      </SubFolder>
+      <PublishType>
+      </PublishType>
+    </_BuildFile>
+    <_BuildFile Include="MPQTracker.Server\LogOut.aspx">
+      <SubFolder>
+      </SubFolder>
+      <PublishType>
+      </PublishType>
+    </_BuildFile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

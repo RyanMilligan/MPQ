@@ -216,6 +216,21 @@ namespace LightSwitchApplication
         partial void SaveChanges_ExecuteFailed(global::System.Exception exception);
     
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void NowReporting_CanExecute(ref bool result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void NowReporting_Executing();
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void NowReporting_PreprocessQuery(ref global::System.Linq.IQueryable<global::LightSwitchApplication.PvPInstance> query);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void NowReporting_Executed(global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.PvPInstance> result);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        partial void NowReporting_ExecuteFailed(global::System.Exception exception);
+    
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         partial void Query_Executing(global::Microsoft.LightSwitch.QueryExecutingDescriptor queryDescriptor);
     
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -571,6 +586,40 @@ namespace LightSwitchApplication
             private static void __SaveChanges_Failed(global::LightSwitchApplication.ApplicationDataService d, object[] args, global::System.Exception ex)
             {
                 d.SaveChanges_ExecuteFailed(ex);
+            }
+            
+            [global::System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private static readonly global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.ApplicationDataService, global::LightSwitchApplication.PvPInstance>
+                __NowReportingEntry = new global::Microsoft.LightSwitch.Details.Framework.Server.QueryOperationEntry<global::LightSwitchApplication.ApplicationDataService, global::LightSwitchApplication.PvPInstance>(
+                    "NowReporting",
+                    global::LightSwitchApplication.ApplicationDataService.DetailsClass.__NowReporting_CanExecute,
+                    global::LightSwitchApplication.ApplicationDataService.DetailsClass.__NowReporting_Executing,
+                    global::LightSwitchApplication.ApplicationDataService.DetailsClass.__NowReporting_Executed,
+                    global::LightSwitchApplication.ApplicationDataService.DetailsClass.__NowReporting_Failed,
+                    global::LightSwitchApplication.ApplicationDataService.DetailsClass.__NowReporting_PreprocessQuery);
+            private static bool __NowReporting_CanExecute(global::LightSwitchApplication.ApplicationDataService d, bool r)
+            {
+                d.NowReporting_CanExecute(ref r);
+                return r;
+            }
+            private static void __NowReporting_Executing(global::LightSwitchApplication.ApplicationDataService d, object[] args)
+            {
+                d.NowReporting_Executing();
+            }
+            private static void __NowReporting_Executed(global::LightSwitchApplication.ApplicationDataService d, object[] args)
+            {
+                d.NowReporting_Executed((global::System.Collections.Generic.IEnumerable<global::LightSwitchApplication.PvPInstance>)args[0]);
+            }
+            private static void __NowReporting_Failed(global::LightSwitchApplication.ApplicationDataService d, object[] args, global::System.Exception ex)
+            {
+                d.NowReporting_ExecuteFailed(ex);
+            }
+            private static global::System.Linq.IQueryable __NowReporting_PreprocessQuery(global::LightSwitchApplication.ApplicationDataService d, object[] args)
+            {
+                global::System.Linq.IQueryable<global::LightSwitchApplication.PvPInstance> query = (global::System.Linq.IQueryable<global::LightSwitchApplication.PvPInstance>)args[0];
+                d.NowReporting_PreprocessQuery(ref query);
+                return query;
             }
     
             [global::System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]

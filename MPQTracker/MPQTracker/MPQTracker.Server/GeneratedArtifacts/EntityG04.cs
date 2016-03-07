@@ -149,6 +149,30 @@ namespace LightSwitchApplication
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.LightSwitch.BuildTasks.CodeGen", "14.0.0.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTimeOffset Duration
+        {
+            get
+            {
+                return global::LightSwitchApplication.PvPInstance.DetailsClass.GetValue(this, global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties.Duration);
+            }
+            set
+            {
+                global::LightSwitchApplication.PvPInstance.DetailsClass.SetValue(this, global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties.Duration, value);
+            }
+        }
+        
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Duration_IsReadOnly(ref bool result);
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Duration_Validate(global::Microsoft.LightSwitch.EntityValidationResultsBuilder results);
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        partial void Duration_Changed();
+
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.LightSwitch.BuildTasks.CodeGen", "14.0.0.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string CreatedBy
         {
             get
@@ -418,6 +442,14 @@ namespace LightSwitchApplication
                     }
                 }
                 
+                public global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, global::System.DateTimeOffset> Duration
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties.Duration) as global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, global::System.DateTimeOffset>;
+                    }
+                }
+                
                 public global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, string> CreatedBy
                 {
                     get
@@ -482,6 +514,7 @@ namespace LightSwitchApplication
             {
                 new int Id { get; set; }
                 new global::System.DateTime StartTime { get; set; }
+                new global::System.DateTimeOffset Duration { get; set; }
                 new string CreatedBy { get; }
                 new global::System.Nullable<global::System.DateTimeOffset> Created { get; }
                 new string ModifiedBy { get; }
@@ -592,6 +625,43 @@ namespace LightSwitchApplication
                     global::System.DateTime value = default(global::System.DateTime);
                     e.EndTime_Compute(ref value);
                     return value;
+                }
+    
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, global::System.DateTimeOffset>.Entry
+                    Duration = new global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, global::System.DateTimeOffset>.Entry(
+                        "Duration",
+                        global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties._Duration_Stub,
+                        global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties._Duration_ComputeIsReadOnly,
+                        global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties._Duration_Validate,
+                        global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties._Duration_GetImplementationValue,
+                        global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties._Duration_SetImplementationValue,
+                        global::LightSwitchApplication.PvPInstance.DetailsClass.PropertySetProperties._Duration_OnValueChanged);
+                private static void _Duration_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.PvPInstance.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, global::System.DateTimeOffset>.Data> c, global::LightSwitchApplication.PvPInstance.DetailsClass d, object sf)
+                {
+                    c(d, ref d._Duration, sf);
+                }
+                private static bool _Duration_ComputeIsReadOnly(global::LightSwitchApplication.PvPInstance e)
+                {
+                    bool result = false;
+                    e.Duration_IsReadOnly(ref result);
+                    return result;
+                }
+                private static void _Duration_Validate(global::LightSwitchApplication.PvPInstance e, global::Microsoft.LightSwitch.EntityValidationResultsBuilder r)
+                {
+                    e.Duration_Validate(r);
+                }
+                private static global::System.DateTimeOffset _Duration_GetImplementationValue(global::LightSwitchApplication.PvPInstance.DetailsClass d)
+                {
+                    return d.ImplementationEntity.Duration;
+                }
+                private static void _Duration_SetImplementationValue(global::LightSwitchApplication.PvPInstance.DetailsClass d, global::System.DateTimeOffset v)
+                {
+                    d.ImplementationEntity.Duration = v;
+                }
+                private static void _Duration_OnValueChanged(global::LightSwitchApplication.PvPInstance e)
+                {
+                    e.Duration_Changed();
                 }
     
                 [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
@@ -840,6 +910,9 @@ namespace LightSwitchApplication
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.EntityComputedProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, global::System.DateTime>.Data _EndTime;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, global::System.DateTimeOffset>.Data _Duration;
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.EntityStorageProperty<global::LightSwitchApplication.PvPInstance, global::LightSwitchApplication.PvPInstance.DetailsClass, string>.Data _CreatedBy;

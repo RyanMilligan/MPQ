@@ -8,6 +8,7 @@
           <ScalarProperty Name="Score" ColumnName="Score" />
           <ScalarProperty Name="Rank" ColumnName="Rank" />
           <ScalarProperty Name="EventScore_EventSlice" ColumnName="EventScore_EventSlice" />
+          <ScalarProperty Name="ScreenName" ColumnName="ScreenName" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="Created" ColumnName="Created" />
           <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -49,6 +50,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PvPInstance_PvPEvent" ColumnName="PvPInstance_PvPEvent" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="Created" ColumnName="Created" />
           <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />

@@ -286,6 +286,14 @@ namespace LightSwitchApplication
             return this.Details.Methods.PvPInstances_SingleOrDefault.CreateInvocation(Id).Execute();
         }
         
+        /// <summary>
+        /// No Modeled Description Available
+        /// </summary>
+        public global::Microsoft.LightSwitch.IDataServiceQueryable<global::LightSwitchApplication.PvPInstance> NowReporting()
+        {
+            return this.Details.Methods.NowReporting.CreateInvocation().Execute();
+        }
+        
         #endregion
     
         #region Details Class
@@ -395,6 +403,14 @@ namespace LightSwitchApplication
                     get
                     {
                         return base.GetItem(global::LightSwitchApplication.ApplicationData.DetailsClass.MethodSetProperties.PvPInstances_SingleOrDefault) as global::Microsoft.LightSwitch.Details.Framework.CreateScalarQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance>;
+                    }
+                }
+                
+                public global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance> NowReporting
+                {
+                    get
+                    {
+                        return base.GetItem(global::LightSwitchApplication.ApplicationData.DetailsClass.MethodSetProperties.NowReporting) as global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance>;
                     }
                 }
                 
@@ -531,6 +547,16 @@ namespace LightSwitchApplication
                     c(d, ref d._PvPInstances_SingleOrDefault, sf);
                 }
     
+                [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+                public static readonly global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance>.Entry
+                    NowReporting = new global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance>.Entry(
+                        "NowReporting",
+                        global::LightSwitchApplication.ApplicationData.DetailsClass.MethodSetProperties._NowReporting_Stub);
+                private static void _NowReporting_Stub(global::Microsoft.LightSwitch.Details.Framework.Base.DetailsCallback<global::LightSwitchApplication.ApplicationData.DetailsClass, global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance>.Data> c, global::LightSwitchApplication.ApplicationData.DetailsClass d, object sf)
+                {
+                    c(d, ref d._NowReporting, sf);
+                }
+    
             }
     
             [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -616,6 +642,9 @@ namespace LightSwitchApplication
             
             [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
             private global::Microsoft.LightSwitch.Details.Framework.CreateScalarQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance>.Data _PvPInstances_SingleOrDefault;
+            
+            [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
+            private global::Microsoft.LightSwitch.Details.Framework.CreateQueryMethod<global::LightSwitchApplication.ApplicationData, global::LightSwitchApplication.ApplicationData.DetailsClass, global::LightSwitchApplication.PvPInstance>.Data _NowReporting;
             
         }
     

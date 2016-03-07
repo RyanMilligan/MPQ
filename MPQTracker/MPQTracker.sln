@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPQTracker.Server", "MPQTra
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "MPQTracker.HTMLClient", "MPQTracker\MPQTracker.HTMLClient\MPQTracker.HTMLClient.jsproj", "{19C51B88-A7CF-416F-A147-0A6236172107}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MPQTrackerDB", "MPQTrackerDB\MPQTrackerDB.sqlproj", "{9658ABE3-7869-498A-BF29-1556829749AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPQTracker.DesktopClient", "MPQTracker\MPQTracker.DesktopClient\MPQTracker.DesktopClient.csproj", "{9C94299C-47CF-4B72-9039-FFD7AEFC536D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,16 @@ Global
 		{19C51B88-A7CF-416F-A147-0A6236172107}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19C51B88-A7CF-416F-A147-0A6236172107}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19C51B88-A7CF-416F-A147-0A6236172107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9658ABE3-7869-498A-BF29-1556829749AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9658ABE3-7869-498A-BF29-1556829749AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9658ABE3-7869-498A-BF29-1556829749AF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9658ABE3-7869-498A-BF29-1556829749AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9658ABE3-7869-498A-BF29-1556829749AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9658ABE3-7869-498A-BF29-1556829749AF}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9C94299C-47CF-4B72-9039-FFD7AEFC536D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C94299C-47CF-4B72-9039-FFD7AEFC536D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C94299C-47CF-4B72-9039-FFD7AEFC536D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C94299C-47CF-4B72-9039-FFD7AEFC536D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

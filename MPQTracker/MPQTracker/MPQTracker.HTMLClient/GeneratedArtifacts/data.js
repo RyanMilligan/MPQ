@@ -32,6 +32,9 @@ window.myapp = msls.application;
         /// <field name="EventSlice" type="msls.application.EventSlice">
         /// Gets or sets the eventSlice for this eventScore.
         /// </field>
+        /// <field name="ScreenName" type="String">
+        /// Gets or sets the screenName for this eventScore.
+        /// </field>
         /// <field name="CreatedBy" type="String">
         /// Gets or sets the createdBy for this eventScore.
         /// </field>
@@ -149,6 +152,9 @@ window.myapp = msls.application;
         /// <field name="StartTime" type="Date">
         /// Gets or sets the startTime for this pvPInstance.
         /// </field>
+        /// <field name="Duration" type="Date">
+        /// Gets or sets the duration for this pvPInstance.
+        /// </field>
         /// <field name="CreatedBy" type="String">
         /// Gets or sets the createdBy for this pvPInstance.
         /// </field>
@@ -214,6 +220,7 @@ window.myapp = msls.application;
             { name: "Score", type: Number },
             { name: "Rank", type: Number },
             { name: "EventSlice", kind: "reference", type: EventSlice },
+            { name: "ScreenName", type: String },
             { name: "CreatedBy", type: String, isReadOnly: true },
             { name: "Created", type: Date, isReadOnly: true },
             { name: "ModifiedBy", type: String, isReadOnly: true },
@@ -249,6 +256,7 @@ window.myapp = msls.application;
             { name: "PvPEvent", kind: "reference", type: PvPEvent },
             { name: "EventSliceCollection", kind: "collection", elementType: EventSlice },
             { name: "StartTime", type: Date },
+            { name: "Duration", type: Date },
             { name: "CreatedBy", type: String, isReadOnly: true },
             { name: "Created", type: Date, isReadOnly: true },
             { name: "ModifiedBy", type: String, isReadOnly: true },
@@ -288,6 +296,14 @@ window.myapp = msls.application;
                     return new $DataServiceQuery({ _entitySet: this.PvPInstances },
                         lightSwitchApplication.rootUri + "/ApplicationData.svc" + "/PvPInstances(" + "Id=" + $toODataString(Id, "Int32?") + ")"
                     );
+                }
+            },
+            {
+                name: "NowReporting", value: function () {
+                    return new $DataServiceQuery({ _entitySet: this.PvPInstances },
+                        lightSwitchApplication.rootUri + "/ApplicationData.svc" + "/NowReporting()",
+                        {
+                        });
                 }
             }
         ]),

@@ -53,6 +53,14 @@
         </EntityProperty.Attributes>
       </EntityProperty>
       <EntityProperty
+        Name="Duration"
+        PropertyType=":DateTimeOffset">
+        <EntityProperty.Attributes>
+          <Required />
+          <NotSearchable />
+        </EntityProperty.Attributes>
+      </EntityProperty>
+      <EntityProperty
         Name="CreatedBy"
         IsReadOnly="True"
         PropertyType=":Person?">
@@ -254,7 +262,7 @@
       EntityType="PvPInstance">
       <AssociationEnd.Attributes>
         <DeleteRule
-          Action="Restrict" />
+          Action="Cascade" />
       </AssociationEnd.Attributes>
     </AssociationEnd>
   </Association>
